@@ -1,8 +1,9 @@
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   content: [
-    './src/app/**/*.{js,ts,jsx,tsx}',
-    './src/components/**/*.{js,ts,jsx,tsx}',
+    './src/**/*.{js,ts,jsx,tsx}',
+    // './src/app/**/*.{js,ts,jsx,tsx}',
+    // './src/components/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
@@ -15,7 +16,10 @@ module.exports = {
           50: 'rgba(18, 20, 23, 0.5)',
         },
         black50: 'rgba(18, 20, 23, 0.5)',
-        white: '#FCFCFC',
+        white: {
+          DEFAULT: '#FCFCFC',
+          40: 'rgba(252, 252, 252, 0.4)',
+        },
         green: {
           dark: '#85AA9F',
           light: '#A5C0B8',
@@ -26,3 +30,5 @@ module.exports = {
   },
   plugins: [],
 };
+
+export default config;

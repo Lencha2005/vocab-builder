@@ -1,7 +1,7 @@
 import { fixelDisplay } from '@/fonts/fonts';
 import './globals.css';
-import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
+import ClientProvider from './components/сlient-provider';
+import Header from './components/header';
 
 export default function RootLayout({
   children,
@@ -11,7 +11,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fixelDisplay.variable} antialiased`}>
-        <Provider store={store}>{children}</Provider>
+        <Header />
+        <main>
+          <ClientProvider>{children}</ClientProvider>
+        </main>
       </body>
     </html>
   );
