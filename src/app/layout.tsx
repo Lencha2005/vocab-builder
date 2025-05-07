@@ -1,5 +1,5 @@
-import { fixelDisplay } from '@/fonts/fonts';
 import './globals.css';
+import { fixelDisplay } from '@/fonts/fonts';
 import ClientProvider from './components/сlient-provider';
 import Header from './components/header';
 
@@ -10,7 +10,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${fixelDisplay.variable} antialiased`}>
+      <body className={`${fixelDisplay.variable}antialiased`}>
         <Header />
         <main>
           <ClientProvider>{children}</ClientProvider>

@@ -32,7 +32,7 @@ export const clearToken = () => {
 //   return String(error);
 // };
 
-export const register = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   'auth/register',
   async (formData: RegisterCredentials, thunkAPI) => {
     try {
@@ -50,7 +50,7 @@ export const register = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk(
+export const loginUser = createAsyncThunk(
   'auth/login',
   async (formData: LoginCredentials, thunkAPI) => {
     try {
@@ -92,7 +92,7 @@ export const refreshUser = createAsyncThunk(
   }
 );
 
-export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
+export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     const { data } = await authInstance.post('/users/signout');
     console.log('data: ', data);

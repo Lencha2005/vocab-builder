@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { login, logout, refreshUser, register } from './operation';
+import { loginUser, logoutUser, refreshUser, registerUser } from './operation';
 
 interface UserState {
   user: {
@@ -41,22 +41,22 @@ const authSlice = createSlice({
   reducers: {},
   extraReducers: builder =>
     builder
-      .addCase(register.pending, handlePending)
-      .addCase(register.fulfilled, (state, action) => {
+      .addCase(registerUser.pending, handlePending)
+      .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(register.rejected, handleRejected)
-      .addCase(login.pending, handlePending)
-      .addCase(login.fulfilled, (state, action) => {
+      .addCase(registerUser.rejected, handleRejected)
+      .addCase(loginUser.pending, handlePending)
+      .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
         state.user = action.payload.user;
         state.token = action.payload.token;
       })
-      .addCase(login.rejected, handleRejected)
+      .addCase(loginUser.rejected, handleRejected)
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
         state.error = null;
@@ -70,8 +70,8 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.error = action.payload;
       })
-      .addCase(logout.pending, handlePending)
-      .addCase(logout.fulfilled, state => {
+      .addCase(logoutUser.pending, handlePending)
+      .addCase(logoutUser.fulfilled, state => {
         state.user = { name: null, email: null };
         state.token = null;
         state.isLoggedIn = false;
@@ -79,7 +79,7 @@ const authSlice = createSlice({
         state.isRefreshing = false;
         state.error = null;
       })
-      .addCase(logout.rejected, handleRejected),
+      .addCase(logoutUser.rejected, handleRejected),
 });
 
 export default authSlice.reducer;
