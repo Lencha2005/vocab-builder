@@ -10,6 +10,7 @@ import { AppDispatch } from '@/redux/store';
 import { registerUser } from '@/redux/auth/operation';
 // import { selectErrorUser } from '@/redux/auth/selectors';
 import Icon from './ui/icon';
+import clsx from 'clsx';
 
 // interface RegisterFormInputs {
 //   name: string;
@@ -24,10 +25,7 @@ const schema = z.object({
     .regex(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, 'Invalid email format'),
   password: z
     .string()
-    .regex(
-      /^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/,
-      'Password must contain at least 6 letters and 1 number'
-    ),
+    .regex(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, 'Error password'),
 });
 
 type RegisterFormInputs = z.infer<typeof schema>;
@@ -61,33 +59,56 @@ export default function RegisterForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-col gap-[14px] md:gap-[18px] mb-4"
+    >
       <div>
         <input
           {...register('name')}
           placeholder="Name"
-          className="placeholder-black text-base"
+          className={clsx(
+            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
+            errors.name ? 'border border-red-500' : 'border border-black-10',
+            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
+          )}
         />
-        {errors.name && <p>{errors.name.message}</p>}
+        {errors.name && (
+          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
+        )}
       </div>
-
       <div>
         <input
           {...register('email')}
           placeholder="Email"
-          className="placeholder-black text-base"
+          className={clsx(
+            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
+            errors.email ? 'border border-red-500' : 'border border-black-10',
+            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
+          )}
         />
-        {errors.email && <p>{errors.email.message}</p>}
+        {errors.email && (
+          <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
+        )}
       </div>
-
-      <div>
+      <div className="relative">
         <input
           type={showPassword ? 'text' : 'password'}
           {...register('password')}
           placeholder="Password"
-          className="placeholder-black text-base"
+          className={clsx(
+            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
+            errors.password
+              ? 'border border-red-500'
+              : 'border border-black-10',
+            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
+          )}
         />
-        <button type="button" onClick={() => setShowPassword(prev => !prev)}>
+        <button
+          type="button"
+          onClick={() => setShowPassword(prev => !prev)}
+          className="absolute top-[18px] right-[18px]"
+        >
           {showPassword ? (
             <Icon
               name="icon-eye"
@@ -100,10 +121,16 @@ export default function RegisterForm() {
             />
           )}
         </button>
-        {errors.password && <p>{errors.password.message}</p>}
+        {errors.password && (
+          <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
+        )}
       </div>
 
-      <button type="submit" disabled={isSubmitting}>
+      <button
+        type="submit"
+        disabled={isSubmitting}
+        className="md:text-lg font-bold text-white w-full py-4 bg-green-dark rounded-[30px] mt-[18px] md:mt-[14px] cursor-pointer hover:bg-green-light focus:bg-green-light"
+      >
         Register
       </button>
     </form>
