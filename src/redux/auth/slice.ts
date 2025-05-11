@@ -5,8 +5,8 @@ interface UserState {
   user: {
     name: string | null;
     email: string | null;
+    token: string | null;
   };
-  token: string | null;
   isLoading: boolean;
   isLoggedIn: boolean;
   isRefreshing: boolean;
@@ -27,8 +27,8 @@ const INITIAL_STATE: UserState = {
   user: {
     name: null,
     email: null,
+    token: null,
   },
-  token: null,
   isLoading: false,
   isLoggedIn: false,
   isRefreshing: false,
@@ -45,16 +45,22 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = {
+          name: action.payload.name,
+          email: action.payload.email,
+          token: action.payload.token,
+        };
       })
       .addCase(registerUser.rejected, handleRejected)
       .addCase(loginUser.pending, handlePending)
       .addCase(loginUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isLoggedIn = true;
-        state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.user = {
+          name: action.payload.name,
+          email: action.payload.email,
+          token: action.payload.token,
+        };
       })
       .addCase(loginUser.rejected, handleRejected)
       .addCase(refreshUser.pending, state => {
@@ -64,7 +70,11 @@ const authSlice = createSlice({
       .addCase(refreshUser.fulfilled, (state, action) => {
         state.isRefreshing = true;
         state.isLoggedIn = true;
-        state.user = action.payload.user;
+        state.user = {
+          name: action.payload.name,
+          email: action.payload.email,
+          token: action.payload.token,
+        };
       })
       .addCase(refreshUser.rejected, (state, action) => {
         state.isRefreshing = false;
@@ -72,8 +82,7 @@ const authSlice = createSlice({
       })
       .addCase(logoutUser.pending, handlePending)
       .addCase(logoutUser.fulfilled, state => {
-        state.user = { name: null, email: null };
-        state.token = null;
+        state.user = { name: null, email: null, token: null };
         state.isLoggedIn = false;
         state.isLoading = false;
         state.isRefreshing = false;

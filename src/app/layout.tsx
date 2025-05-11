@@ -11,10 +11,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fixelDisplay.variable} antialiased`}>
-        <Header />
-        <main>
-          <ClientProvider>{children}</ClientProvider>
-        </main>
+        <ClientProvider>
+          <Header />
+          <main>{children}</main>
+        </ClientProvider>
       </body>
     </html>
   );

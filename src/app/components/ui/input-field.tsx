@@ -1,6 +1,6 @@
 import { InputHTMLAttributes } from 'react';
 import { FieldError, UseFormRegisterReturn } from 'react-hook-form';
-import Icon from './ui/icon';
+import Icon from './icon';
 import clsx from 'clsx';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {

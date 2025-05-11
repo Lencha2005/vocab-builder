@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { RootState } from '../store';
+// import { RootState } from '../store';
+import Cookies from 'js-cookie';
 
 export const authInstance = axios.create({
   baseURL: 'https://vocab-builder-backend.p.goit.global/api',
@@ -25,12 +26,9 @@ export const clearToken = () => {
   authInstance.defaults.headers.common.Authorization = '';
 };
 
-// const extractErrorMessage = (error: unknown): string => {
-//   if (error instanceof Error) {
-//     return error.message;
-//   }
-//   return String(error);
-// };
+const getErrorMessage = (error: unknown): string => {
+  return error instanceof Error ? error.message : 'Unknown error';
+};
 
 export const registerUser = createAsyncThunk(
   'auth/register',
@@ -39,13 +37,10 @@ export const registerUser = createAsyncThunk(
       const { data } = await authInstance.post('/users/signup', formData);
       setToken(data.token);
       console.log('data: ', data);
+      Cookies.set('token', data.token, { expires: 7 });
       return data;
     } catch (error: unknown) {
-      let message = 'Unknown error';
-      if (error instanceof Error) {
-        message = error.message;
-      }
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -57,13 +52,10 @@ export const loginUser = createAsyncThunk(
       const { data } = await authInstance.post('/users/signin', formData);
       setToken(data.token);
       console.log('data: ', data);
+      Cookies.set('token', data.token, { expires: 7 });
       return data;
     } catch (error: unknown) {
-      let message = 'Unknown error';
-      if (error instanceof Error) {
-        message = error.message;
-      }
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   }
 );
@@ -71,39 +63,35 @@ export const loginUser = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
-    const state = thunkAPI.getState() as RootState;
-    const token = state.auth.token;
+    // const state = thunkAPI.getState() as RootState;
+    const token = Cookies.get('token');
 
-    if (token === null) {
+    if (!token) {
       return thunkAPI.rejectWithValue('No token provided to refresh user data');
     }
 
     try {
       setToken(token);
       const { data } = await authInstance.get('/users/current');
-      return data;
+      return { ...data, token };
     } catch (error: unknown) {
-      let message = 'Unknown error';
-      if (error instanceof Error) {
-        message = error.message;
-      }
-      return thunkAPI.rejectWithValue(message);
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
   }
 );
 
-export const logoutUser = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
-  try {
-    const { data } = await authInstance.post('/users/signout');
-    console.log('data: ', data);
+export const logoutUser = createAsyncThunk(
+  'auth/logout',
+  async (_, thunkAPI) => {
+    try {
+      const { data } = await authInstance.post('/users/signout');
+      console.log('data: ', data);
 
-    clearToken();
-    return data;
-  } catch (error: unknown) {
-    let message = 'Unknown error';
-    if (error instanceof Error) {
-      message = error.message;
+      clearToken();
+      Cookies.remove('token');
+      return data;
+    } catch (error: unknown) {
+      return thunkAPI.rejectWithValue(getErrorMessage(error));
     }
-    return thunkAPI.rejectWithValue(message);
   }
-});
+);

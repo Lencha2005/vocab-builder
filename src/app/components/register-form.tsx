@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { registerUser } from '@/redux/auth/operation';
 import { Toaster, toast } from 'react-hot-toast';
-import InputField from './input-field';
+import InputField from './ui/input-field';
 import Button from './ui/button';
 
 const schema = z.object({

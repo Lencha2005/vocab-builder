@@ -1,12 +1,29 @@
 'use client';
 
-import { Provider } from 'react-redux';
-import { store } from '@/redux/store';
+import { Provider, useDispatch } from 'react-redux';
+import { AppDispatch, store } from '@/redux/store';
+import { useEffect } from 'react';
+import { refreshUser } from '@/redux/auth/operation';
+
+function InitAuth() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(refreshUser());
+  }, [dispatch]);
+
+  return null;
+}
 
 export default function ClientProvider({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  return <Provider store={store}>{children}</Provider>;
+  return (
+    <Provider store={store}>
+      <InitAuth />
+      {children}
+    </Provider>
+  );
 }
