@@ -10,6 +10,7 @@ import { AppDispatch } from '@/redux/store';
 import { registerUser } from '@/redux/auth/operation';
 import { Toaster, toast } from 'react-hot-toast';
 import InputField from './input-field';
+import Button from './ui/button';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -76,15 +77,14 @@ export default function RegisterForm() {
           showPassword={showPassword}
           toggleShowPassword={() => setShowPassword(prev => !prev)}
         />
-        <button
+        <Button
           type="submit"
+          variant="green"
           disabled={isSubmitting}
-          className="md:text-lg font-bold text-white w-full py-4 bg-green-dark
-          rounded-[30px] mt-[18px] md:mt-[14px] cursor-pointer
-          hover:bg-green-light focus:bg-green-light"
+          className="mt-[18px] md:mt-[14px]"
         >
           Register
-        </button>
+        </Button>
       </form>
       <Toaster position="top-center" />
     </>

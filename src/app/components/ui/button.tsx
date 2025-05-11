@@ -22,8 +22,9 @@ export default function Button({
     <button
       {...rest}
       className={clsx(
-        'w-full text-base text-center font-bold rounded-4xl md:text-lg transition duration-300 ease-in-out',
-        variant === 'green' && 'bg-green-dark text-white hover:bg-green-light',
+        'w-full text-base text-center font-bold rounded-[30px] md:text-lg transition duration-300 ease-in-out cursor-pointe',
+        variant === 'green' &&
+          'py-4 bg-green-dark text-white hover:bg-green-light focus:bg-green-light',
         variant === 'white' && 'bg-white text-black-default hover:text-green',
         variant === 'transparent' &&
           'bg-transparent text-white border-white-40 hover:bg-white hover:text-black-default',
