@@ -1,17 +1,12 @@
-// 'use client';
-
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../components/auth-layout';
 import RegisterForm from '../components/register-form';
 
-// type Props = {};
-
 export default function RegisterPage() {
   return (
     <>
       <AuthLayout>
-        {/* <div className="bg-green-dark"> */}
         <h3 className="text-3xl md:text-[40px] font-semibold mb-4 md:mb-5">
           Register
         </h3>
@@ -26,7 +21,6 @@ export default function RegisterPage() {
         >
           Login
         </Link>
-        {/* </div> */}
       </AuthLayout>
     </>
   );

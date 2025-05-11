@@ -8,15 +8,8 @@ import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { registerUser } from '@/redux/auth/operation';
-// import { selectErrorUser } from '@/redux/auth/selectors';
-import Icon from './ui/icon';
-import clsx from 'clsx';
-
-// interface RegisterFormInputs {
-//   name: string;
-//   email: string;
-//   password: string;
-// }
+import { Toaster, toast } from 'react-hot-toast';
+import InputField from './input-field';
 
 const schema = z.object({
   name: z.string().min(1, 'Name is required'),
@@ -33,7 +26,6 @@ type RegisterFormInputs = z.infer<typeof schema>;
 export default function RegisterForm() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  //   const error = useSelector(selectErrorUser);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -48,91 +40,51 @@ export default function RegisterForm() {
 
   const onSubmit = async (data: RegisterFormInputs) => {
     try {
-      const result = await dispatch(registerUser(data)).unwrap();
-      console.log('result success: ', result);
+      await dispatch(registerUser(data)).unwrap();
       reset();
       router.push('/dictionary');
-    } catch (error) {
-      console.error('Registration failed:', error);
-      alert(`Registration error: ${error}`);
+    } catch {
+      toast.error('Something went wrong');
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-col gap-[14px] md:gap-[18px] mb-4"
-    >
-      <div>
-        <input
-          {...register('name')}
+    <>
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="flex flex-col gap-[14px] md:gap-[18px] mb-4"
+      >
+        <InputField
+          type="text"
           placeholder="Name"
-          className={clsx(
-            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
-            errors.name ? 'border border-red-500' : 'border border-black-10',
-            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
-          )}
+          register={register('name')}
+          error={errors.name}
         />
-        {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-        )}
-      </div>
-      <div>
-        <input
-          {...register('email')}
+
+        <InputField
+          type="email"
           placeholder="Email"
-          className={clsx(
-            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
-            errors.email ? 'border border-red-500' : 'border border-black-10',
-            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
-          )}
+          register={register('email')}
+          error={errors.email}
         />
-        {errors.email && (
-          <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-        )}
-      </div>
-      <div className="relative">
-        <input
-          type={showPassword ? 'text' : 'password'}
-          {...register('password')}
+
+        <InputField
+          type="password"
           placeholder="Password"
-          className={clsx(
-            'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
-            errors.password
-              ? 'border border-red-500'
-              : 'border border-black-10',
-            'hover:border-green-dark focus:border-green-dark active:border-green-dark'
-          )}
+          register={register('password')}
+          error={errors.password}
+          showPassword={showPassword}
+          toggleShowPassword={() => setShowPassword(prev => !prev)}
         />
         <button
-          type="button"
-          onClick={() => setShowPassword(prev => !prev)}
-          className="absolute top-[18px] right-[18px]"
+          type="submit"
+          disabled={isSubmitting}
+          className="md:text-lg font-bold text-white w-full py-4 bg-green-dark rounded-[30px] mt-[18px] md:mt-[14px] cursor-pointer hover:bg-green-light focus:bg-green-light"
         >
-          {showPassword ? (
-            <Icon
-              name="icon-eye"
-              className="w-[20px] h-[20px] fill-transparent stroke-black"
-            />
-          ) : (
-            <Icon
-              name="icon-eye-off"
-              className="w-[20px] h-[20px] fill-transparent stroke-black"
-            />
-          )}
+          Register
         </button>
-        {errors.password && (
-          <p className="mt-1 text-sm text-red-500">{errors.password.message}</p>
-        )}
-      </div>
-
-      <button
-        type="submit"
-        disabled={isSubmitting}
-        className="md:text-lg font-bold text-white w-full py-4 bg-green-dark rounded-[30px] mt-[18px] md:mt-[14px] cursor-pointer hover:bg-green-light focus:bg-green-light"
-      >
-        Register
-      </button>
-    </form>
+      </form>
+      <Toaster position="top-center" />
+    </>
   );
 }
