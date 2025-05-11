@@ -22,7 +22,7 @@ export default function InputField({
   const isPassword = type === 'password';
 
   return (
-    <div>
+    <div className="relative">
       <input
         type={
           isPassword && showPassword !== undefined

@@ -1,16 +1,27 @@
-// 'use client';
+'use client';
 
 import Link from 'next/link';
 import React from 'react';
 import AuthLayout from '../components/auth-layout';
-
-// type Props = {};
+import LoginForm from '../components/login-form';
 
 export default function LoginPage() {
   return (
     <>
       <AuthLayout>
-        <Link href="/register">Register</Link>
+        <h3 className="text-3xl md:text-[40px] font-semibold mb-4 md:mb-5">
+          Login
+        </h3>
+        <p className="md:text-xl mb-4 md:mb-8">
+          Please enter your login details to continue using our service:
+        </p>
+        <LoginForm />
+        <Link
+          href="/register"
+          className="flex justify-center font-bold text-black-50 underline underline-offset-2 hover:text-black focus:text-black"
+        >
+          Register
+        </Link>
       </AuthLayout>
     </>
   );
