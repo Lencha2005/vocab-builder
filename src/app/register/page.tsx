@@ -17,7 +17,8 @@ export default function RegisterPage() {
         <RegisterForm />
         <Link
           href="/login"
-          className="flex justify-center font-bold text-black-50 underline underline-offset-2 hover:text-black focus:text-black"
+          className="flex justify-center font-bold text-black-50 underline underline-offset-2
+           hover:text-black focus:text-black"
         >
           Login
         </Link>
