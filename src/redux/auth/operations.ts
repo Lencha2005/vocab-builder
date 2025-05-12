@@ -1,6 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-// import { RootState } from '../store';
 import Cookies from 'js-cookie';
 
 export const authInstance = axios.create({

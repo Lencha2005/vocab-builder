@@ -5,7 +5,7 @@ import Icon from './ui/icon';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectIsLoggedIn, selectUser } from '@/redux/auth/selectors';
 import { AppDispatch } from '@/redux/store';
-import { logoutUser } from '@/redux/auth/operation';
+import { logoutUser } from '@/redux/auth/operations';
 import { useRouter } from 'next/navigation';
 import MobileMenu from './mobile-menu';
 

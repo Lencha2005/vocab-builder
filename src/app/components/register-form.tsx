@@ -7,7 +7,7 @@ import { z } from 'zod';
 import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { registerUser } from '@/redux/auth/operation';
+import { registerUser } from '@/redux/auth/operations';
 import { Toaster, toast } from 'react-hot-toast';
 import InputField from './ui/input-field';
 import Button from './ui/button';
