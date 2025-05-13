@@ -17,6 +17,8 @@
   --color-black-80: rgba(18, 20, 23, 0.8);
 
   --color-white: #fcfcfc;
+  --color-white-secondary: #f8f8f8;
+  /* --color-white-dark: #dbdbdb; */
   --color-white-40: rgba(252, 252, 252, 0.4);
   --color-white-70: rgba(252, 252, 252, 0.7);
 
@@ -32,7 +34,7 @@
 }
 
 body {
-  background-color: #f8f8f8;
+  background-color: var(--color-white-secondary);
   font-family: var(--font-fixel-display, sans-serif);
   color: var(--color-black);
   font-size: 16px;

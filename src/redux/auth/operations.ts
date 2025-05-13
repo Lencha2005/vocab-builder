@@ -1,3 +1,4 @@
+import { getErrorMessage } from '@/utils/getErrorMessage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -23,10 +24,6 @@ export const setToken = (token: string) => {
 
 export const clearToken = () => {
   authInstance.defaults.headers.common.Authorization = '';
-};
-
-const getErrorMessage = (error: unknown): string => {
-  return error instanceof Error ? error.message : 'Unknown error';
 };
 
 export const registerUser = createAsyncThunk(
