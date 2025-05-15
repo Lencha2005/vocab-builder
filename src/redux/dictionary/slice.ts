@@ -1,21 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import {
-  GetWordsResponse,
-  WordItem,
-  createWord,
-  getAllWords,
-  getCategories,
-} from './operations';
-
-interface DictionaryState {
-  items: WordItem[];
-  categories: string[];
-  totalPages: number;
-  currentPage: number;
-  perPage: number;
-  isLoading: boolean;
-  error: string | null;
-}
+import { createWord, getAllWords, getCategories } from './operations';
+import { DictionaryState, GetWordsResponse, WordItem } from '../types/types';
 
 const handlePending = (state: DictionaryState) => {
   state.isLoading = true;

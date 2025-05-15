@@ -1,17 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser, refreshUser, registerUser } from './operations';
-
-interface UserState {
-  user: {
-    name: string | null;
-    email: string | null;
-    token: string | null;
-  };
-  isLoading: boolean;
-  isLoggedIn: boolean;
-  isRefreshing: boolean;
-  error: unknown;
-}
+import { UserState } from '../types/types';
 
 const handlePending = (state: UserState) => {
   state.isLoading = true;

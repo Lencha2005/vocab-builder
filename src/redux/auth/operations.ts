@@ -2,21 +2,11 @@ import { getErrorMessage } from '@/utils/getErrorMessage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { LoginCredentials, RegisterCredentials } from '../types/types';
 
 export const authInstance = axios.create({
   baseURL: 'https://vocab-builder-backend.p.goit.global/api',
 });
-
-interface RegisterCredentials {
-  name: string;
-  email: string;
-  password: string;
-}
-
-interface LoginCredentials {
-  email: string;
-  password: string;
-}
 
 export const setToken = (token: string) => {
   authInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
