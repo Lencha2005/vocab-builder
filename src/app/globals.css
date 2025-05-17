@@ -18,13 +18,16 @@
 
   --color-white: #fcfcfc;
   --color-white-secondary: #f8f8f8;
-  /* --color-white-dark: #dbdbdb; */
+  --color-white-true: #ffffff;
   --color-white-40: rgba(252, 252, 252, 0.4);
   --color-white-70: rgba(252, 252, 252, 0.7);
 
   --color-green-50: rgba(133, 170, 159, 0.1);
   --color-green-dark: #85aa9f;
   --color-green-light: #a5c0b8;
+
+  --color-gray: #dbdbdb;
+  --color-gray-10: rgba(133, 170, 159, 0.1);
 }
 
 * {
@@ -38,4 +41,25 @@ body {
   font-family: var(--font-fixel-display, sans-serif);
   color: var(--color-black);
   font-size: 16px;
+}
+
+/* Стилізація вертикального скролу */
+.custom-scrollbar {
+  scrollbar-width: thin; /* для Firefox */
+  scrollbar-color: var(--color-white-secondary) transparent;
+  margin-right: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-white-secondary); /* зелений */
+  border-radius: 10px;
+  border: 2px solid white; /* простір між треком */
 }

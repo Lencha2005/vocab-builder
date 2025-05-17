@@ -1,31 +1,58 @@
-import React from 'react';
-import Icon from '../components/ui/icon';
+'use client';
 
-type DictionaryPageProps = {};
+import React, { useEffect, useState } from 'react';
+import Dashboard from '../components/dashboard';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { deleteWordById, getUserWords } from '@/redux/userWords/operations';
+import EditWordModal from '../components/edit-word-modal';
+import { selectUserWords } from '@/redux/userWords/selectors';
+import WordsTable from '../components/words-table';
 
-export default function DictionaryPage({}: DictionaryPageProps) {
+// type DictionaryPageProps = {};
+
+export default function DictionaryPage() {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const dictionary = useSelector(selectUserWords);
+  console.log('dictionary: ', dictionary);
+
+  const [editWordId, setEditWordId] = useState<string | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(getUserWords());
+  }, [dispatch]);
+
+  const handleEdit = (id: string) => {
+    setEditWordId(id);
+    setIsEditModalOpen(true);
+  };
+
+  const wordToEdit = dictionary.find(word => word._id === editWordId);
+
+  const handleDelete = (id: string) => {
+    dispatch(deleteWordById(id));
+  };
+
   return (
     // <div className="bg-white">
     <div
       className="max-w-[375px] md:max-w-[768px] xl:max-w-[1440px]
     pt-8 md:pt-20 pb-12 px-4 md:px-8 xl:px-[100px] mx-auto "
     >
-      <div className="relative">
-        <input
-          type="text"
-          // name="find"
-          // onChange={() => {}}
-          placeholder="Find the word"
-          className="w-full py-3 px-6 font-medium rounded-[15px] border border-black-10 placeholder-black"
+      <Dashboard />
+      <WordsTable
+        words={dictionary}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
+      {isEditModalOpen && wordToEdit && (
+        <EditWordModal
+          word={wordToEdit}
+          onClose={() => setIsEditModalOpen(false)}
         />
-        <Icon
-          name="icon-search"
-          className="absolute top-[14px] right-6 w-[20px] h-[20px] fill-transparent stroke-black"
-        />
-        <select>
-          <option></option>
-        </select>
-      </div>
+      )}
     </div>
     // </div>
   );

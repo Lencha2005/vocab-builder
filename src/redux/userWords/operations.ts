@@ -1,5 +1,4 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { authInstance } from '../auth/operations';
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import {
   AnswerWordDto,
@@ -11,6 +10,7 @@ import {
   TrainingWord,
   WordItem,
 } from '../types/types';
+import authInstance from '@/api/authInstance';
 
 export const getUserWords = createAsyncThunk<
   GetWordsResponse,

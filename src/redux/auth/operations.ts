@@ -1,12 +1,8 @@
 import { getErrorMessage } from '@/utils/getErrorMessage';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
 import Cookies from 'js-cookie';
 import { LoginCredentials, RegisterCredentials } from '../types/types';
-
-export const authInstance = axios.create({
-  baseURL: 'https://vocab-builder-backend.p.goit.global/api',
-});
+import authInstance from '@/api/authInstance';
 
 export const setToken = (token: string) => {
   authInstance.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -49,8 +45,8 @@ export const loginUser = createAsyncThunk(
 export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
-    // const state = thunkAPI.getState() as RootState;
     const token = Cookies.get('token');
+    console.log('token: ', token);
 
     if (!token) {
       return thunkAPI.rejectWithValue('No token provided to refresh user data');
@@ -59,6 +55,7 @@ export const refreshUser = createAsyncThunk(
     try {
       setToken(token);
       const { data } = await authInstance.get('/users/current');
+      Cookies.set('token', data.token);
       return { ...data, token };
     } catch (error: unknown) {
       return thunkAPI.rejectWithValue(getErrorMessage(error));

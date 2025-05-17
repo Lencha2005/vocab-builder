@@ -1,11 +1,23 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
+import React, { useEffect } from 'react';
 import AuthLayout from '../components/auth-layout';
 import LoginForm from '../components/login-form';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { selectIsLoggedIn } from '@/redux/auth/selectors';
 
 export default function LoginPage() {
+  const router = useRouter();
+  const isLogginIn = useSelector(selectIsLoggedIn);
+
+  useEffect(() => {
+    if (isLogginIn) {
+      router.replace('/dictionary');
+    }
+  }, [isLogginIn, router]);
+
   return (
     <>
       <AuthLayout>

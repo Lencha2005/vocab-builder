@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { loginUser, logoutUser, refreshUser, registerUser } from './operations';
 import { UserState } from '../types/types';
+import Cookies from 'js-cookie';
 
 const handlePending = (state: UserState) => {
   state.isLoading = true;
@@ -12,11 +13,14 @@ const handleRejected = (state: UserState, action: PayloadAction<unknown>) => {
   state.error = action.payload;
 };
 
+const tokenFromCookie =
+  typeof window !== 'undefined' ? Cookies.get('token') : null;
+
 const INITIAL_STATE: UserState = {
   user: {
     name: null,
     email: null,
-    token: null,
+    token: tokenFromCookie || null,
   },
   isLoading: false,
   isLoggedIn: false,
@@ -57,7 +61,8 @@ const authSlice = createSlice({
         state.error = null;
       })
       .addCase(refreshUser.fulfilled, (state, action) => {
-        state.isRefreshing = true;
+        console.log('REFRESH SUCCESS:', action.payload);
+        state.isRefreshing = false;
         state.isLoggedIn = true;
         state.user = {
           name: action.payload.name,

@@ -1,18 +1,24 @@
 'use client';
 
-import { Provider, useDispatch } from 'react-redux';
+import { Provider, useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, store } from '@/redux/store';
 import { useEffect } from 'react';
 import { refreshUser } from '@/redux/auth/operations';
+import { selectIsRefreshing } from '@/redux/auth/selectors';
 
-function InitAuth() {
+function InitAuth({ children }: { children: React.ReactNode }) {
   const dispatch = useDispatch<AppDispatch>();
+  const isRefreshing = useSelector(selectIsRefreshing);
 
   useEffect(() => {
     dispatch(refreshUser());
   }, [dispatch]);
 
-  return null;
+  if (isRefreshing) {
+    return <div>Refreshing user...</div>;
+  }
+
+  return <>{children}</>;
 }
 
 export default function ClientProvider({
@@ -22,8 +28,7 @@ export default function ClientProvider({
 }) {
   return (
     <Provider store={store}>
-      <InitAuth />
-      {children}
+      <InitAuth>{children}</InitAuth>
     </Provider>
   );
 }
