@@ -69,6 +69,7 @@ export default function MobileMenu({
             <li key={link.href}>
               <Link
                 href={link.href}
+                onClick={onClose}
                 className={clsx(
                   pathname === link.href &&
                     'bg-white text-black py-3 px-5 rounded-[15px]'
