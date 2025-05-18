@@ -9,8 +9,6 @@ import EditWordModal from '../components/edit-word-modal';
 import { selectUserWords } from '@/redux/userWords/selectors';
 import WordsTable from '../components/words-table';
 
-// type DictionaryPageProps = {};
-
 export default function DictionaryPage() {
   const dispatch = useDispatch<AppDispatch>();
 
@@ -36,7 +34,6 @@ export default function DictionaryPage() {
   };
 
   return (
-    // <div className="bg-white">
     <div
       className="max-w-[375px] md:max-w-[768px] xl:max-w-[1440px]
     pt-8 md:pt-20 pb-12 px-4 md:px-8 xl:px-[100px] mx-auto "
@@ -54,6 +51,5 @@ export default function DictionaryPage() {
         />
       )}
     </div>
-    // </div>
   );
 }

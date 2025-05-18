@@ -36,7 +36,7 @@ const INITIAL_STATE: UserWordsState = {
   word: null,
   totalPages: 0,
   currentPage: 1,
-  perPage: 0,
+  perPage: 7,
   statistics: 0,
   tasks: [],
   answers: [],

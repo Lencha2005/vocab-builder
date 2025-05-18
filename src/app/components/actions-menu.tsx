@@ -6,6 +6,7 @@ import Popover from '@mui/material/Popover';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import Icon from './ui/icon';
+import { Box } from '@mui/material';
 
 type ActionsMenuProps = {
   onEdit: () => void;
@@ -41,115 +42,83 @@ export function ActionsMenu({ onEdit, onDelete }: ActionsMenuProps) {
           paper: {
             sx: {
               borderRadius: '15px',
-              //   px: 1.5,
-              //   py: 1,
+              px: 3,
+              py: 1.5,
               boxShadow: '0 4px 47px 0 rgba(18,20,23,0.08)',
-              minWidth: 140,
+              //   minWidth: 117,
+              bgcolor: 'white',
+              fontFamily: 'inherit',
             },
           },
         }}
       >
-        <MenuItem
-          onClick={() => {
-            onEdit();
-            handleClose();
-          }}
-          sx={{
-            display: 'flex',
-            gap: 1.5,
-            alignItems: 'center',
-            fontSize: '14px',
-            fontWeight: 500,
-          }}
-        >
-          <Icon
-            name="icon-edit"
-            className="w-[16px] h-[16px] stroke-green-dark"
-          />
-          Edit
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            onDelete();
-            handleClose();
-          }}
-          sx={{
-            display: 'flex',
-            gap: 1.5,
-            alignItems: 'center',
-            fontSize: '14px',
-            fontWeight: 500,
-          }}
-        >
-          <Icon
-            name="icon-trash"
-            className="w-[16px] h-[16px] stroke-green-dark"
-          />
-          Delete
-        </MenuItem>
+        <Box display="flex" flexDirection="column" gap="8px">
+          <MenuItem
+            onClick={() => {
+              onEdit();
+              handleClose();
+            }}
+            sx={{
+              display: 'flex',
+              gap: 1,
+              p: 0,
+              alignItems: 'center',
+              minHeight: '16px',
+              fontSize: {
+                xs: '14px',
+                md: '16px',
+              },
+              fontWeight: 500,
+
+              '&:hover': {
+                color: '#85aa9f',
+                backgroundColor: 'transparent',
+                '& svg': {
+                  stroke: '#85aa9f',
+                },
+              },
+            }}
+          >
+            <Icon
+              name="icon-edit"
+              className="w-[16px] h-[16px] fill-transparent stroke-black-50  "
+            />
+            Edit
+          </MenuItem>
+          <MenuItem
+            onClick={() => {
+              onDelete();
+              handleClose();
+            }}
+            sx={{
+              display: 'flex',
+              gap: 1,
+              p: 0,
+              alignItems: 'center',
+              minHeight: '16px',
+              fontSize: {
+                xs: '14px',
+                md: '16px',
+              },
+              fontWeight: 500,
+
+              '&:hover': {
+                color: '#85aa9f',
+                backgroundColor: 'transparent',
+                '& svg': {
+                  stroke: '#85aa9f',
+                },
+              },
+            }}
+          >
+            <Icon
+              name="icon-trash"
+              className="w-[16px] h-[16px] fill-transparent stroke-black-50"
+            />
+            Delete
+          </MenuItem>
+        </Box>
       </Popover>
     </div>
   );
 }
-
-// import { useState, useRef, useEffect } from 'react';
-// import Icon from './ui/icon';
-
-// type ActionsMenuProps = {
-//   onEdit: () => void;
-//   onDelete: () => void;
-// };
-
-// export default function ActionsMenu({ onEdit, onDelete }: ActionsMenuProps) {
-//   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-//   const [isOpen, setIsOpen] = useState(false);
-//   const ref = useRef<HTMLDivElement>(null);
-
-//   useEffect(() => {
-//     const handleClickOutside = (e: MouseEvent) => {
-//       if (ref.current && !ref.current.contains(e.target as Node)) {
-//         setIsOpen(false);
-//       }
-//     };
-//     document.addEventListener('mousedown', handleClickOutside);
-//     return () => document.removeEventListener('mousedown', handleClickOutside);
-//   }, []);
-
-//   return (
-//     <div className="relative" ref={ref}>
-//       <button onClick={() => setIsOpen(prev => !prev)} className="text-xl px-2">
-//         ⋯
-//       </button>
-//       {isOpen && (
-//         <div
-//           className="absolute right-0 mt-2 w-[120px] z-10
-//         flex flex-col gap-2 items-start py-3 px-6
-//         bg-white-true rounded-[15px] shadow-[0_4px_47px_0_rgba(18,20,23,0.08)]"
-//         >
-//           <button
-//             type="button"
-//             onClick={onEdit}
-//             className="text-sm md:text-base font-medium p-0 flex gap-2 items-center"
-//           >
-//             <Icon
-//               name="icon-edit"
-//               className="w-[16px] h-[16px] stroke-green-dark"
-//             />
-//             ✏️ Edit
-//           </button>
-//           <button
-//             type="button"
-//             onClick={onDelete}
-//             className="text-sm md:text-base font-medium p-0 flex gap-2 items-center"
-//           >
-//             <Icon
-//               name="icon-trash"
-//               className="w-[16px] h-[16px] stroke-green-dark"
-//             />
-//             🗑️ Delete
-//           </button>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }

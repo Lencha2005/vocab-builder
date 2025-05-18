@@ -20,7 +20,7 @@ const INITIAL_STATE: DictionaryState = {
   categories: [],
   totalPages: 0,
   currentPage: 1,
-  perPage: 0,
+  perPage: 7,
   isLoading: false,
   error: null,
 };
@@ -29,8 +29,8 @@ const dictionarySlice = createSlice({
   name: 'dictionary',
   initialState: INITIAL_STATE,
   reducers: {
-    setCurrentPage(state) {
-      state.currentPage = state.currentPage + 1;
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
     },
     resetWords(state) {
       state.items = [];

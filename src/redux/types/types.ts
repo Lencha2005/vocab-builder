@@ -18,7 +18,7 @@ export interface GetWordsResponse {
 export interface GetWordsParams {
   keyword?: string;
   category?: string;
-  isIrregular?: boolean;
+  isIrregular?: boolean | null;
   page?: number;
   limit?: number;
 }
@@ -101,4 +101,10 @@ export interface RegisterCredentials {
 export interface LoginCredentials {
   email: string;
   password: string;
+}
+
+export interface FiltersState {
+  category: string;
+  isIrregular: boolean | null;
+  searchTerm: string;
 }

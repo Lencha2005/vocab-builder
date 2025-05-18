@@ -1,29 +1,44 @@
 'use client';
 
-import React, { useState } from 'react';
 import Icon from './ui/icon';
 import CustomSelect from './ui/custom-select';
 import { useDebouncedCallback } from 'use-debounce';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
 import { selectStatistics } from '@/redux/userWords/selectors';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import {
+  setCategory,
+  setIsIrregular,
+  setSearchTerm,
+} from '@/redux/filters/slice';
+import { AppDispatch } from '@/redux/store';
+import { selectCategory, selectIsIrregular } from '@/redux/filters/selectors';
 
-type DashboardProps = {};
-
-export default function Dashboard({}: DashboardProps) {
+export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();
+  const pathname = usePathname();
   const statistics = useSelector(selectStatistics);
+  const category = useSelector(selectCategory);
+  const isIrregular = useSelector(selectIsIrregular);
   console.log('statistics: ', statistics);
 
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const isDictionaryPage = pathname === '/dictionary';
 
   const handleSearch = useDebouncedCallback((term: string) => {
-    console.log(`Searching... ${term}`);
+    console.log('term: ', term);
+    dispatch(setSearchTerm(term.trim()));
   }, 300);
 
   const handleSelect = (value: string) => {
-    setSelectedCategory(value);
+    dispatch(setCategory(value));
+    if (value.toLowerCase() !== 'verb') {
+      dispatch(setIsIrregular(null));
+    }
+  };
+
+  const handleIrregularChange = (value: boolean) => {
+    dispatch(setIsIrregular(value));
   };
 
   return (
@@ -34,7 +49,7 @@ export default function Dashboard({}: DashboardProps) {
             type="text"
             name="search"
             onChange={e => {
-              handleSearch(e.target.value.trim());
+              handleSearch(e.target.value);
             }}
             placeholder="Find the word"
             className="w-full md:w-[274px] py-3 px-6 font-medium rounded-[15px] border border-black-10
@@ -46,7 +61,12 @@ export default function Dashboard({}: DashboardProps) {
             className="absolute top-[14px] right-6 w-[20px] h-[20px] fill-transparent stroke-black"
           />
         </div>
-        <CustomSelect selected={selectedCategory} onSelect={handleSelect} />
+        <CustomSelect
+          selected={category}
+          onSelect={handleSelect}
+          isIrregular={isIrregular}
+          onIrregularChange={handleIrregularChange}
+        />
       </div>
       <div className="flex flex-col md:flex-row gap-2 md:gap-4">
         <p className="text-sm md:text-base font-medium text-black-50 flex items-center">
@@ -54,16 +74,18 @@ export default function Dashboard({}: DashboardProps) {
           <span className="ml-2 text-xl text-black">{statistics}</span>
         </p>
         <div className="flex gap-4">
-          <button
-            type="button"
-            className="font-medium flex items-center gap-2 cursor-pointer"
-          >
-            Add word
-            <Icon
-              name="icon-plus"
-              className="w-[20px] h-[20px] stroke-green-dark"
-            />
-          </button>
+          {isDictionaryPage && (
+            <button
+              type="button"
+              className="font-medium flex items-center gap-2 cursor-pointer"
+            >
+              Add word
+              <Icon
+                name="icon-plus"
+                className="w-[20px] h-[20px] stroke-green-dark"
+              />
+            </button>
+          )}
           <Link
             href="/training"
             className="font-medium flex items-center gap-2"

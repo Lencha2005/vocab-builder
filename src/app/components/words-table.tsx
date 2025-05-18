@@ -11,9 +11,7 @@ import { WordItem } from '@/redux/types/types';
 import { ProgressBar } from './progress-bar';
 import { ActionsMenu } from './actions-menu';
 import Icon from './ui/icon';
-// import Icon from './ui/icon';
-// import ProgressBar from './progress-bar';
-// import ActionsMenu from './actions-menu';
+import TableHeaderWithIcon from './table-header-with-icon';
 
 interface CustomColumnMeta {
   hideOnMobile?: boolean;
@@ -24,20 +22,34 @@ type TypedColumnDef<T> = ColumnDef<T, unknown> & {
 
 type WordsTableProps = {
   words: WordItem[];
-  onEdit: (id: string) => void;
-  onDelete: (id: string) => void;
+  onAdd?: (id: string) => void;
+  onEdit?: (id: string) => void;
+  onDelete?: (id: string) => void;
   variant?: 'default' | 'recommend';
 };
 
 export default function WordsTable({
   words,
+  onAdd,
   onEdit,
   onDelete,
   variant = 'default',
 }: WordsTableProps) {
   const baseColumns: TypedColumnDef<WordItem>[] = [
-    { accessorKey: 'en', header: 'Word', cell: info => info.getValue() },
-    { accessorKey: 'ua', header: 'Translation', cell: info => info.getValue() },
+    {
+      accessorKey: 'en',
+      header: () => (
+        <TableHeaderWithIcon iconName="icon-united-kingdom" label="Word" />
+      ),
+      cell: info => info.getValue(),
+    },
+    {
+      accessorKey: 'ua',
+      header: () => (
+        <TableHeaderWithIcon iconName="icon-ukraine" label="Translation" />
+      ),
+      cell: info => info.getValue(),
+    },
   ];
 
   const defaultColumns: TypedColumnDef<WordItem>[] = [
@@ -55,12 +67,13 @@ export default function WordsTable({
     {
       id: 'actions',
       header: '',
-      cell: ({ row }) => (
-        <ActionsMenu
-          onEdit={() => onEdit(row.original._id!)}
-          onDelete={() => onDelete(row.original._id!)}
-        />
-      ),
+      cell: ({ row }) =>
+        onEdit && onDelete ? (
+          <ActionsMenu
+            onEdit={() => onEdit(row.original._id!)}
+            onDelete={() => onDelete(row.original._id!)}
+          />
+        ) : null,
     },
   ];
 
@@ -73,18 +86,22 @@ export default function WordsTable({
     {
       id: 'addToDictionary',
       header: '',
-      cell: ({ row }) => (
-        <button
-          onClick={() => onEdit(row.original._id!)}
-          className="text-green-primary underline text-sm md:text-base"
-        >
-          <span className="hidden md:block">Add to dictionary</span>
-          <Icon
-            name="icon-switch-horizontal"
-            className="w-[20px] h-[20px] stroke-green-dark"
-          />
-        </button>
-      ),
+      cell: ({ row }) =>
+        onAdd ? (
+          <button
+            onClick={() => onAdd(row.original._id!)}
+            className="text-green-primary text-sm xl:text-base font-medium 
+            flex flex-col gap-[2px] xl:flex-row xl:gap-2 xl:items-center cursor-pointer"
+          >
+            <span className="hidden md:block whitespace-nowrap">
+              Add to dictionary
+            </span>
+            <Icon
+              name="icon-switch-horizontal"
+              className="w-[20px] h-[20px] stroke-green-dark"
+            />
+          </button>
+        ) : null,
     },
   ];
 
@@ -103,14 +120,14 @@ export default function WordsTable({
   return (
     <div className="w-full md:rounded-[15px] border-0 md:border-[18px] border-white-true md:bg-white-true">
       <div className="w-full overflow-hidden rounded-[15px]">
-        <table className="rounded-[15px] max-w-[343px] border-hidden">
-          <thead className=" bg-gray-10 text-left font-medium">
+        <table className="rounded-[15px] w-full border-hidden">
+          <thead className=" bg-gray-10 text-left xs:text-sm sm:text-base md:text-lg xl:text-xl">
             {table.getHeaderGroups().map(headerGroup => (
               <tr key={headerGroup.id}>
                 {headerGroup.headers.map(header => (
                   <th
                     key={header.id}
-                    className={`p-4 font-medium border border-gray ${
+                    className={`font-medium xs:p-3 sm:p-4 md:p-[22px] md:pr-3 border border-gray ${
                       (header.column.columnDef as TypedColumnDef<WordItem>).meta
                         ?.hideOnMobile
                         ? 'hidden md:table-cell'
@@ -128,14 +145,22 @@ export default function WordsTable({
           </thead>
           <tbody>
             {table.getRowModel().rows.map(row => (
-              <tr key={row.id} className="font-medium text-sm bg-white">
+              <tr
+                key={row.id}
+                className="font-medium xs:text-xs sm:text-sm md:text-lg xl:text-xl bg-white"
+              >
                 {row.getVisibleCells().map(cell => (
                   <td
                     key={cell.id}
-                    className={`pl-3 pr-2 py-4 border border-gray break-all ${
+                    className={`xs:p-3 sm:pl-3 sm:pr-2 sm:py-4 md:p-[22px] border border-gray break-anywhere  whitespace-pre-line align-top ${
                       (cell.column.columnDef as TypedColumnDef<WordItem>).meta
                         ?.hideOnMobile
                         ? 'hidden md:table-cell'
+                        : ''
+                    }
+                    ${
+                      cell.column.id === 'addToDictionary'
+                        ? 'px-[9px] py-[14px] md:px-[14px] xl:px-[22px] align-center'
                         : ''
                     }`}
                   >

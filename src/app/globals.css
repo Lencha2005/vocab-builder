@@ -5,6 +5,7 @@
 @theme {
   --font-fixel-display: 'FixelDisplay', sans-serif;
 
+  --breakpoint-xs: 320px;
   --breakpoint-sm: 375px;
   --breakpoint-md: 768px;
   --breakpoint-lg: 1024px;
@@ -62,4 +63,8 @@ body {
   background-color: var(--color-white-secondary); /* зелений */
   border-radius: 10px;
   border: 2px solid white; /* простір між треком */
+}
+
+.break-anywhere {
+  overflow-wrap: anywhere;
 }

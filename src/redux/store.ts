@@ -2,12 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import authSlice from '@/redux/auth/slice';
 import dictionarySlice from '@/redux/dictionary/slice';
 import userWordsSlice from '@/redux/userWords/slice';
+import filtersSlice from '@/redux/filters/slice';
 
 export const store = configureStore({
   reducer: {
+    auth: authSlice,
     dictionary: dictionarySlice,
     userWords: userWordsSlice,
-    auth: authSlice,
+    filters: filtersSlice,
   },
 });
 

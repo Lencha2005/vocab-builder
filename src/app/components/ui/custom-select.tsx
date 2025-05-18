@@ -60,12 +60,11 @@ export default function CustomSelect({
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="w-full md:w-[164px] rounded-[15px] border border-black-10 py-3 px-6 text-left 
-          text-black font-medium bg-white-secondary flex justify-between items-center cursor-pointer
+          className="w-full md:min-w-[164px] rounded-[15px] border border-black-10 py-3 px-6 text-left 
+          text-black font-medium bg-white-secondary flex justify-between items-center gap-2 cursor-pointer
           hover:border-green-dark focus:border-green-dark"
         >
           {selected || 'Categories'}
-          {/* <div className="py-[6px] px-[3px] w-6 h-6"> */}
           <Icon
             name="icon-toggle"
             className={clsx(
@@ -73,7 +72,6 @@ export default function CustomSelect({
               isOpen && 'rotate-180'
             )}
           />
-          {/* </div> */}
         </button>
 
         {isOpen && (
@@ -82,7 +80,6 @@ export default function CustomSelect({
           flex flex-col gap-2 mt-2 mx-0 rounded-[15px] bg-white-true border border-black-10 shadow-[0_4px_47px_0_rgba(18,20,23,0.08)] z-10 
           custom-scrollbar"
           >
-            {/* md:h-[205px] md:max-h-screen overflow-y-auto */}
             {options.map(option => (
               <li
                 key={option}
@@ -102,7 +99,7 @@ export default function CustomSelect({
               type="radio"
               name="verb"
               value="regular"
-              // checked={isIrregular === false}
+              checked={isIrregular === false}
               onChange={handleRadioChange}
               className="peer hidden"
             />
@@ -117,7 +114,7 @@ export default function CustomSelect({
               type="radio"
               name="verb"
               value="irregular"
-              // checked={isIrregular === true}
+              checked={isIrregular === true}
               onChange={handleRadioChange}
               className="peer hidden"
             />
