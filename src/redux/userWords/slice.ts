@@ -47,7 +47,18 @@ const INITIAL_STATE: UserWordsState = {
 const userWordsSlice = createSlice({
   name: 'userWords',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    setCurrentPage(state, action: PayloadAction<number>) {
+      state.currentPage = action.payload;
+    },
+    resetWords(state) {
+      state.userItems = [];
+      state.totalPages = 0;
+      state.currentPage = 1;
+      state.perPage = 0;
+      state.error = null;
+    },
+  },
   extraReducers: builder =>
     builder
       .addCase(getUserWords.pending, handlePending)
@@ -127,5 +138,7 @@ const userWordsSlice = createSlice({
       )
       .addCase(addAnswers.rejected, handleRejected),
 });
+
+export const { setCurrentPage, resetWords } = userWordsSlice.actions;
 
 export default userWordsSlice.reducer;

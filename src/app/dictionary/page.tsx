@@ -6,8 +6,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteWordById, getUserWords } from '@/redux/userWords/operations';
 import EditWordModal from '../components/edit-word-modal';
-import { selectUserWords } from '@/redux/userWords/selectors';
+import {
+  selectCurrentPage,
+  selectPerPages,
+  selectTotalPages,
+  selectUserWords,
+} from '@/redux/userWords/selectors';
 import WordsTable from '../components/words-table';
+import {
+  selectCategory,
+  selectIsIrregular,
+  selectSearchTerm,
+} from '@/redux/filters/selectors';
+import { resetFilters } from '@/redux/filters/slice';
+import { setCurrentPage } from '@/redux/userWords/slice';
+import WordsPagination from '../components/words-pagination';
 
 export default function DictionaryPage() {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,12 +28,32 @@ export default function DictionaryPage() {
   const dictionary = useSelector(selectUserWords);
   console.log('dictionary: ', dictionary);
 
+  const page = useSelector(selectCurrentPage);
+  const perPage = useSelector(selectPerPages);
+  const totalPages = useSelector(selectTotalPages);
+  const category = useSelector(selectCategory);
+  const searchTerm = useSelector(selectSearchTerm);
+  const isIrregular = useSelector(selectIsIrregular);
+
   const [editWordId, setEditWordId] = useState<string | null>(null);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(getUserWords());
+    dispatch(resetFilters());
+    dispatch(setCurrentPage(1));
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(
+      getUserWords({
+        category,
+        isIrregular,
+        keyword: searchTerm,
+        page,
+        limit: perPage,
+      })
+    );
+  }, [dispatch, category, isIrregular, searchTerm, page, perPage]);
 
   const handleEdit = (id: string) => {
     setEditWordId(id);
@@ -31,6 +64,10 @@ export default function DictionaryPage() {
 
   const handleDelete = (id: string) => {
     dispatch(deleteWordById(id));
+  };
+
+  const handlePageChange = (newPage: number) => {
+    dispatch(setCurrentPage(newPage));
   };
 
   return (
@@ -50,6 +87,11 @@ export default function DictionaryPage() {
           onClose={() => setIsEditModalOpen(false)}
         />
       )}
+      <WordsPagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
