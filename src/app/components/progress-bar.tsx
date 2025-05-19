@@ -8,29 +8,37 @@ interface ProgressBarProps {
 
 export function ProgressBar({ value }: ProgressBarProps) {
   return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress
-        variant="determinate"
-        value={value}
-        size={48}
-        thickness={5}
-        sx={{
-          color: '#2bd627', // tailwind green-500
-        }}
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <span className="text-xs font-semibold text-black">{`${Math.round(value)}%`}</span>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <span className="font-medium xs:text-xs sm:text-sm md:text-lg xl:text-xl text-black aline-top">{`${Math.round(value)}%`}</span>
+      <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+        {/* background track */}
+        <CircularProgress
+          variant="determinate"
+          value={100}
+          size={26}
+          thickness={4}
+          sx={{
+            color: '#d4f8d3',
+            position: 'absolute',
+            left: 0,
+          }}
+        />
+        {/* active progress */}
+        <CircularProgress
+          variant="determinate"
+          value={value}
+          size={26}
+          thickness={4}
+          sx={{
+            color: '#2bd627',
+          }}
+        />
       </Box>
     </Box>
   );

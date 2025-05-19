@@ -1,12 +1,9 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   experimental: {
-    serverActions: true,
+    serverActions: {}, // виправлено
   },
-  matcher: [
-    '/dictionary/:path*',
-    '/recommend/:path*',
-    '/training/:path*',
-    '/login',
-    '/register',
-  ],
+  // інші опції (наприклад, images, eslint, etc.)
 };
+
+module.exports = nextConfig;
