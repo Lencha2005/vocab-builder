@@ -118,7 +118,7 @@ export default function WordsTable({
   });
 
   return (
-    <div className="w-full md:rounded-[15px] border-0 md:border-[18px] border-white-true md:bg-white-true">
+    <div className="w-full md:rounded-[15px] border-0 md:border-[18px] border-white-true md:bg-white-true mb-8 md:mb-7">
       <div className="w-full overflow-hidden rounded-[15px]">
         <table className="rounded-[15px] w-full border-hidden">
           <thead className=" bg-gray-10 text-left xs:text-sm sm:text-base md:text-lg xl:text-xl">
