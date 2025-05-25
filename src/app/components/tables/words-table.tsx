@@ -7,10 +7,10 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { WordItem } from '@/redux/types/types';
+import { WordItem } from '../../../types/word';
 import { ProgressBar } from './progress-bar';
-import { ActionsMenu } from './actions-menu';
-import Icon from './ui/icon';
+import { ActionsMenu } from '../modals/actions-menu';
+import Icon from '../ui/icon';
 import TableHeaderWithIcon from './table-header-with-icon';
 
 interface CustomColumnMeta {

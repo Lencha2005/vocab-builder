@@ -2,11 +2,11 @@
 
 import * as React from 'react';
 import IconButton from '@mui/material/IconButton';
-import Popover from '@mui/material/Popover';
+import { Box } from '@mui/material';
 import MenuItem from '@mui/material/MenuItem';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import Icon from './ui/icon';
-import { Box } from '@mui/material';
+import Popover from '@mui/material/Popover';
+import Icon from '../ui/icon';
 
 type ActionsMenuProps = {
   onEdit: () => void;

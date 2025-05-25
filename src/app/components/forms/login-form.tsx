@@ -5,15 +5,12 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { registerUser } from '@/redux/auth/operations';
 import { Toaster, toast } from 'react-hot-toast';
-import InputField from './ui/input-field';
-import Button from './ui/button';
+import { loginUser } from '@/lib/api/auth';
+import InputField from '../ui/input-field';
+import Button from '../ui/button';
 
 const schema = z.object({
-  name: z.string().min(1, 'Name is required'),
   email: z
     .string()
     .regex(/^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/, 'Invalid email format'),
@@ -22,10 +19,9 @@ const schema = z.object({
     .regex(/^(?=.*[a-zA-Z]{6})(?=.*\d)[a-zA-Z\d]{7}$/, 'Error password'),
 });
 
-type RegisterFormInputs = z.infer<typeof schema>;
+type LoginFormInputs = z.infer<typeof schema>;
 
-export default function RegisterForm() {
-  const dispatch = useDispatch<AppDispatch>();
+export default function LoginForm() {
   const router = useRouter();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -35,15 +31,20 @@ export default function RegisterForm() {
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<RegisterFormInputs>({
+  } = useForm<LoginFormInputs>({
     resolver: zodResolver(schema),
   });
 
-  const onSubmit = async (data: RegisterFormInputs) => {
+  const onSubmit = async (data: LoginFormInputs) => {
     try {
-      await dispatch(registerUser(data)).unwrap();
-      reset();
-      router.push('/dictionary');
+      const result = await loginUser(data);
+
+      if (result?.ok) {
+        reset();
+        router.push('/dictionary');
+      } else {
+        toast.error('Invalid credentials');
+      }
     } catch {
       toast.error('Something went wrong');
     }
@@ -55,13 +56,6 @@ export default function RegisterForm() {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col gap-[14px] md:gap-[18px] mb-4"
       >
-        <InputField
-          type="text"
-          placeholder="Name"
-          register={register('name')}
-          error={errors.name}
-        />
-
         <InputField
           type="email"
           placeholder="Email"
@@ -78,12 +72,12 @@ export default function RegisterForm() {
           toggleShowPassword={() => setShowPassword(prev => !prev)}
         />
         <Button
-          type="submit"
           variant="green"
+          type="submit"
           disabled={isSubmitting}
           className="mt-[18px] md:mt-[14px]"
         >
-          Register
+          Login
         </Button>
       </form>
       <Toaster position="top-center" />

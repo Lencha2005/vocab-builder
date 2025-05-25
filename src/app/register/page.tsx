@@ -1,21 +1,15 @@
 'use client';
+
+import React from 'react';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
-import AuthLayout from '../components/auth-layout';
-import RegisterForm from '../components/register-form';
-import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '@/redux/auth/selectors';
+import { useRedirectIfAuthenticated } from '@/lib/hooks/use-redirect-if-authenticated';
+import AuthLayout from '../components/layout/auth-layout';
+import RegisterForm from '../components/forms/register-form';
 
 export default function RegisterPage() {
-  const router = useRouter();
-  const isLogginIn = useSelector(selectIsLoggedIn);
+  const { isLoadingOrRedirecting } = useRedirectIfAuthenticated();
 
-  useEffect(() => {
-    if (isLogginIn) {
-      router.replace('/dictionary');
-    }
-  }, [isLogginIn, router]);
+  if (isLoadingOrRedirecting) return null;
 
   return (
     <>

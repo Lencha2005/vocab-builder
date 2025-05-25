@@ -1,12 +1,12 @@
 'use client';
 
-import { generatePagination } from '@/utils/generatePagination';
-import { usePathname, useSearchParams } from 'next/navigation';
 import React from 'react';
-import Icon from './ui/icon';
+import { generatePagination } from '@/lib/utils/generatePagination';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { useMediaQuery } from '@mui/material';
 import clsx from 'clsx';
 import Link from 'next/link';
-import { useMediaQuery } from '@mui/material';
+import Icon from '../ui/icon';
 
 type WordsPaginationProps = {
   currentPage: number;
@@ -23,6 +23,8 @@ export default function WordsPagination({
   const searchParams = useSearchParams();
 
   const createPageURL = (pageNumber: number | string) => {
+    if (!searchParams || !pathname) return '#';
+
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
     return `${pathname}?${params.toString()}`;
@@ -31,6 +33,8 @@ export default function WordsPagination({
   const visiblePages = isTablet ? 3 : 2;
 
   const allPages = generatePagination(currentPage, totalPages, visiblePages);
+  if (!currentPage || !totalPages) return null;
+
   return (
     <div className="flex justify-center gap-[10px]">
       <PaginationArrowDouble
@@ -194,7 +198,6 @@ function PaginationArrowDouble({
     direction === 'left' ? (
       <>
         <Icon name="icon-paginat-double" className="w-[16px] h-[16px] " />
-        {/* <Icon name="icon-toggle" className="w-[9px] h-[12px] rotate-90 " /> */}
       </>
     ) : (
       <>
@@ -202,7 +205,6 @@ function PaginationArrowDouble({
           name="icon-paginat-double"
           className="w-[16px] h-[16px] rotate-180"
         />
-        {/* <Icon name="icon-toggle" className="w-[9px] h-[12px] -rotate-90  " /> */}
       </>
     );
 

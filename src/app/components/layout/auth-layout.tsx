@@ -1,8 +1,8 @@
 'use client';
 
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
 import React from 'react';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
 
 type AuthLayoutProps = {
   children: React.ReactNode;

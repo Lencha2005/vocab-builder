@@ -1,9 +1,9 @@
 import React from 'react';
-import Icon from './ui/icon';
-import clsx from 'clsx';
 import { usePathname } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import clsx from 'clsx';
+import Icon from '../ui/icon';
 
 type MobileMenuProps = {
   isOpen: boolean;
@@ -64,7 +64,7 @@ export default function MobileMenu({
             className="w-[28px] h-[28px] md:w-[32px] md:h-[32px] stroke-white"
           />
         </button>
-        <ul className="flex flex-col gap-[28px] text-sm font-medium text-white mb-[28px]">
+        <ul className="flex flex-col gap-7 text-sm font-medium text-white mb-[28px]">
           {links.map(link => (
             <li key={link.href}>
               <Link

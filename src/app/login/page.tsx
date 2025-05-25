@@ -1,22 +1,15 @@
 'use client';
 
+import React from 'react';
 import Link from 'next/link';
-import React, { useEffect } from 'react';
-import AuthLayout from '../components/auth-layout';
-import LoginForm from '../components/login-form';
-import { useRouter } from 'next/navigation';
-import { useSelector } from 'react-redux';
-import { selectIsLoggedIn } from '@/redux/auth/selectors';
+import { useRedirectIfAuthenticated } from '@/lib/hooks/use-redirect-if-authenticated';
+import AuthLayout from '../components/layout/auth-layout';
+import LoginForm from '../components/forms/login-form';
 
 export default function LoginPage() {
-  const router = useRouter();
-  const isLogginIn = useSelector(selectIsLoggedIn);
+  const { isLoadingOrRedirecting } = useRedirectIfAuthenticated();
 
-  useEffect(() => {
-    if (isLogginIn) {
-      router.replace('/dictionary');
-    }
-  }, [isLogginIn, router]);
+  if (isLoadingOrRedirecting) return null;
 
   return (
     <>
@@ -30,7 +23,7 @@ export default function LoginPage() {
         <LoginForm />
         <Link
           href="/register"
-          className="flex justify-center font-bold text-black-50 underline underline-offset-
+          className="flex justify-center font-bold text-black-50 underline underline-offset-2
            hover:text-black focus:text-black"
         >
           Register

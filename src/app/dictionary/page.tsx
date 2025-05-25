@@ -1,18 +1,15 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import Dashboard from '../components/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { deleteWordById, getUserWords } from '@/redux/userWords/operations';
-import EditWordModal from '../components/edit-word-modal';
 import {
   selectCurrentPage,
   selectPerPages,
   selectTotalPages,
   selectUserWords,
 } from '@/redux/userWords/selectors';
-import WordsTable from '../components/words-table';
 import {
   selectCategory,
   selectIsIrregular,
@@ -20,13 +17,18 @@ import {
 } from '@/redux/filters/selectors';
 import { resetFilters } from '@/redux/filters/slice';
 import { setCurrentPage } from '@/redux/userWords/slice';
-import WordsPagination from '../components/words-pagination';
+import { useProtectRoute } from '@/lib/hooks/use-protect-route';
+import Dashboard from '../components/forms/dashboard';
+import WordsTable from '../components/tables/words-table';
+import WordsPagination from '../components/tables/words-pagination';
+import EditWordModal from '../components/modals/edit-word-modal';
 
 export default function DictionaryPage() {
+  const { isLoading } = useProtectRoute(); // редіректить на /login
+
   const dispatch = useDispatch<AppDispatch>();
 
   const dictionary = useSelector(selectUserWords);
-
   const page = useSelector(selectCurrentPage);
   const perPage = useSelector(selectPerPages);
   const totalPages = useSelector(selectTotalPages);
@@ -68,6 +70,8 @@ export default function DictionaryPage() {
   const handlePageChange = (newPage: number) => {
     dispatch(setCurrentPage(newPage));
   };
+
+  if (isLoading) return null;
 
   return (
     <div

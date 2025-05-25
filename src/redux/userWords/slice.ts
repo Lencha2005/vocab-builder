@@ -2,12 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   DeleteWordResponse,
   GetTasksResponse,
-  GetWordsResponse,
   StatisticsResponse,
   TrainingWord,
   UserWordsState,
+  GetWordsResponse,
   WordItem,
-} from '../types/types';
+} from '@/types';
 import {
   addAnswers,
   addWordById,

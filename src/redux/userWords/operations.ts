@@ -1,16 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getErrorMessage } from '@/utils/getErrorMessage';
+import { getErrorMessage } from '@/lib/utils/getErrorMessage';
+import authInstance from '@/lib/axios/authInstance';
 import {
+  GetWordsParams,
+  GetWordsResponse,
+  WordItem,
   AnswerWordDto,
   DeleteWordResponse,
   GetTasksResponse,
-  GetWordsParams,
-  GetWordsResponse,
   StatisticsResponse,
   TrainingWord,
-  WordItem,
-} from '../types/types';
-import authInstance from '@/api/authInstance';
+} from '@/types';
 
 export const getUserWords = createAsyncThunk<
   GetWordsResponse,

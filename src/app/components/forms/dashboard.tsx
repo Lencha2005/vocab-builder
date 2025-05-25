@@ -1,19 +1,19 @@
 'use client';
 
-import Icon from './ui/icon';
-import CustomSelect from './ui/custom-select';
 import { useDebouncedCallback } from 'use-debounce';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectStatistics } from '@/redux/userWords/selectors';
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import { selectStatistics } from '@/redux/userWords/selectors';
+import { selectCategory, selectIsIrregular } from '@/redux/filters/selectors';
 import {
   setCategory,
   setIsIrregular,
   setSearchTerm,
 } from '@/redux/filters/slice';
-import { AppDispatch } from '@/redux/store';
-import { selectCategory, selectIsIrregular } from '@/redux/filters/selectors';
+import Link from 'next/link';
+import Icon from '../ui/icon';
+import CustomSelect from '../ui/custom-select';
 
 export default function Dashboard() {
   const dispatch = useDispatch<AppDispatch>();

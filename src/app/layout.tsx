@@ -1,7 +1,8 @@
 import './globals.css';
 import { fixelDisplay } from '@/fonts/fonts';
-import ClientProvider from './components/сlient-provider';
-import Header from './components/header';
+import SessionWrapper from './components/wrappers/session-wrapper';
+import ClientProvider from './components/wrappers/client-provider';
+import Header from './components/layout/header';
 
 export default function RootLayout({
   children,
@@ -11,10 +12,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${fixelDisplay.variable} antialiased`}>
-        <ClientProvider>
-          <Header />
-          <main>{children}</main>
-        </ClientProvider>
+        <SessionWrapper>
+          <ClientProvider>
+            <Header />
+            <main>{children}</main>
+          </ClientProvider>
+        </SessionWrapper>
       </body>
     </html>
   );

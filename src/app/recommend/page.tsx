@@ -1,10 +1,8 @@
 'use client';
 
 import React, { useEffect } from 'react';
-import Dashboard from '../components/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import WordsTable from '../components/words-table';
 import {
   selectCurrentPage,
   selectPerPages,
@@ -18,11 +16,16 @@ import {
   selectIsIrregular,
   selectSearchTerm,
 } from '@/redux/filters/selectors';
-import { setCurrentPage } from '@/redux/dictionary/slice';
-import WordsPagination from '../components/words-pagination';
 import { resetFilters } from '@/redux/filters/slice';
+import { setCurrentPage } from '@/redux/dictionary/slice';
+import { useProtectRoute } from '@/lib/hooks/use-protect-route';
+import Dashboard from '../components/forms/dashboard';
+import WordsTable from '../components/tables/words-table';
+import WordsPagination from '../components/tables/words-pagination';
 
 export default function RecommendPage() {
+  const { isLoading } = useProtectRoute(); // редіректить на /login
+
   const dispatch = useDispatch<AppDispatch>();
 
   const dictionary = useSelector(selectWords);
@@ -57,6 +60,8 @@ export default function RecommendPage() {
   const handlePageChange = (newPage: number) => {
     dispatch(setCurrentPage(newPage));
   };
+
+  if (isLoading) return null;
 
   return (
     <div

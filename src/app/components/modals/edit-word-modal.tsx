@@ -1,4 +1,4 @@
-import { WordItem } from '@/redux/types/types';
+import { WordItem } from '../../../types/word';
 import React from 'react';
 
 type EditWordModalProps = {

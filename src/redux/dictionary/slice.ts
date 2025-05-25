@@ -1,13 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { createWord, getAllWords, getCategories } from './operations';
-import { DictionaryState, GetWordsResponse, WordItem } from '../types/types';
+import { WordItem, DictionaryState, GetWordsResponse } from '@/types';
 
-const handlePending = (state: DictionaryState) => {
+export const handlePending = (state: DictionaryState) => {
   state.isLoading = true;
   state.error = null;
 };
 
-const handleRejected = (
+export const handleRejected = (
   state: DictionaryState,
   action: PayloadAction<string | undefined>
 ) => {
@@ -54,6 +54,7 @@ const dictionarySlice = createSlice({
           state.error = null;
         }
       )
+      .addCase(getAllWords.rejected, handleRejected)
       .addCase(createWord.pending, handlePending)
       .addCase(
         createWord.fulfilled,
@@ -64,7 +65,6 @@ const dictionarySlice = createSlice({
         }
       )
       .addCase(createWord.rejected, handleRejected)
-      .addCase(getAllWords.rejected, handleRejected)
       .addCase(getCategories.pending, handlePending)
       .addCase(
         getCategories.fulfilled,
