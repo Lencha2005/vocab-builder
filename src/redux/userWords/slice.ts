@@ -89,6 +89,9 @@ const userWordsSlice = createSlice({
         updateWordById.fulfilled,
         (state, action: PayloadAction<WordItem>) => {
           state.isLoading = false;
+          state.userItems = state.userItems.map(word =>
+            word._id === action.payload._id ? action.payload : word
+          );
           state.word = action.payload;
           state.error = null;
         }

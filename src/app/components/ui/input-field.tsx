@@ -4,10 +4,12 @@ import Icon from './icon';
 import clsx from 'clsx';
 
 interface InputFieldProps extends InputHTMLAttributes<HTMLInputElement> {
-  register: UseFormRegisterReturn;
+  register?: UseFormRegisterReturn;
   error?: FieldError;
   showPassword?: boolean;
   toggleShowPassword?: () => void;
+  variant?: 'black' | 'white';
+  className?: string;
 }
 
 export default function InputField({
@@ -17,6 +19,8 @@ export default function InputField({
   error,
   showPassword,
   toggleShowPassword,
+  variant = 'black',
+  className,
   ...rest
 }: InputFieldProps) {
   const isPassword = type === 'password';
@@ -35,9 +39,13 @@ export default function InputField({
         {...register}
         {...rest}
         className={clsx(
-          'w-full  rounded-[15px] px-[18px] py-4 placeholder-black outline-hidden',
-          error ? 'border border-red-500' : 'border border-black-10',
-          'hover:border-green-dark focus:border-green-dark active:border-green-dark'
+          'w-full  rounded-[15px] px-[18px] py-4 border outline-hidden',
+          error && 'border border-red-500',
+          variant === 'black' &&
+            'placeholder-black  border-black-10 hover:border-green-dark focus:border-green-dark active:border-green-dark',
+          variant === 'white' &&
+            'placeholder-white text-white  border-white-70 hover:border-white focus:border-white active:border-white',
+          className
         )}
       />
       {isPassword && toggleShowPassword && (

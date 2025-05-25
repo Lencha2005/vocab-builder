@@ -22,12 +22,13 @@ export default function Button({
     <button
       {...rest}
       className={clsx(
-        'w-full text-base text-center font-bold rounded-[30px] md:text-lg transition duration-300 ease-in-out cursor-pointe',
+        'w-full text-base text-center font-bold rounded-[30px] md:text-lg transition duration-300 ease-in-out cursor-pointer',
         variant === 'green' &&
           'py-4 bg-green-dark text-white hover:bg-green-light focus:bg-green-light',
-        variant === 'white' && 'bg-white text-black-default hover:text-green',
+        variant === 'white' &&
+          'bg-white text-black-default hover:text-green-dark',
         variant === 'transparent' &&
-          'bg-transparent text-white border-white-40 hover:bg-white hover:text-black-default',
+          'bg-transparent text-white border border-white-40 hover:bg-white hover:text-black',
         disabled && 'opacity-50 cursor-not-allowed',
         className
       )}

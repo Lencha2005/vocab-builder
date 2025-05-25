@@ -1,11 +1,127 @@
+'use client';
+
 import { WordItem } from '../../../types/word';
 import React from 'react';
+import { z } from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import toast, { Toaster } from 'react-hot-toast';
+import CustomModal from '../ui/custom-modal';
+import InputField from '../ui/input-field';
+import Button from '../ui/button';
+import { updateWordById } from '@/redux/userWords/operations';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '@/redux/store';
+import Icon from '../ui/icon';
 
 type EditWordModalProps = {
   word: WordItem;
   onClose: () => void;
 };
 
-export default function EditWordModal({}: EditWordModalProps) {
-  return <div>EditWordModal</div>;
+const schema = z.object({
+  en: z.string().regex(/\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/),
+  ua: z.string().regex(/^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u),
+});
+
+type WordEditInputs = z.infer<typeof schema>;
+
+export default function EditWordModal({ word, onClose }: EditWordModalProps) {
+  const dispatch = useDispatch<AppDispatch>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<WordEditInputs>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      en: word.en,
+      ua: word.ua,
+    },
+  });
+  const onSubmit = async (data: WordEditInputs) => {
+    console.log('data: ', data);
+    try {
+      await dispatch(
+        updateWordById({
+          id: word._id!,
+          formData: {
+            ...data,
+            category: word.category,
+            isIrregular: word.isIrregular,
+          },
+        })
+      ).unwrap();
+      toast.success('Word updateed successfully');
+      console.log('data: ', data);
+      reset();
+      onClose();
+    } catch {
+      toast.error('Failed to update word');
+    }
+  };
+
+  return (
+    <CustomModal isOpen={true} onClose={onClose} showCloseIcon>
+      <div className="py-12 px-4 md:py-16 md:px-16">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-4 md:gap-[18px] mb-4"
+        >
+          <div className="flex flex-col-reverse gap-2 md:flex-row md:gap-8">
+            <InputField
+              type="ua"
+              placeholder="Трохи, трішки"
+              {...register('ua')}
+              error={errors.ua}
+              variant="white"
+              className="md:w-[354px]"
+            />
+            <label className="flex items-center text-white text-sm font-medium md:text-base">
+              <Icon
+                name="icon-ukraine"
+                className="w-7 h-7 md:w-8 md:h-8 mr-2"
+              />
+              Ukrainian
+            </label>
+          </div>
+          <div className="flex flex-col-reverse gap-2 md:flex-row md:gap-8">
+            <InputField
+              type="en"
+              placeholder="A little bit"
+              {...register('en')}
+              error={errors.en}
+              variant="white"
+              className="md:w-[354px]"
+            />
+            <label className="flex items-center text-white text-sm font-medium md:text-base">
+              <Icon
+                name="icon-united-kingdom"
+                className="w-7 h-7 md:w-8 md:h-8 mr-2"
+              />
+              English
+            </label>
+          </div>
+          <div className="flex gap-2 md:gap-[10px] mt-4 md:mt-[14px]">
+            <Button
+              variant="white"
+              type="submit"
+              className="p-4 md:p-[10px] mt-[18px] md:mt-[14px]"
+            >
+              Save
+            </Button>
+            <Button
+              variant="transparent"
+              type="button"
+              className="p-4 mt-[18px] md:mt-[14px]"
+            >
+              Cancel
+            </Button>
+          </div>
+        </form>
+      </div>
+      <Toaster position="top-center" />
+    </CustomModal>
+  );
 }

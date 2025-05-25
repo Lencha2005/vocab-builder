@@ -24,7 +24,7 @@ import WordsPagination from '../components/tables/words-pagination';
 import EditWordModal from '../components/modals/edit-word-modal';
 
 export default function DictionaryPage() {
-  const { isLoading } = useProtectRoute(); // редіректить на /login
+  const { isLoading, status } = useProtectRoute(); // редіректить на /login
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -45,6 +45,7 @@ export default function DictionaryPage() {
   }, [dispatch]);
 
   useEffect(() => {
+    if (status !== 'authenticated') return;
     dispatch(
       getUserWords({
         category,
@@ -54,7 +55,7 @@ export default function DictionaryPage() {
         limit: perPage,
       })
     );
-  }, [dispatch, category, isIrregular, searchTerm, page, perPage]);
+  }, [dispatch, category, isIrregular, searchTerm, page, perPage, status]);
 
   const handleEdit = (id: string) => {
     setEditWordId(id);

@@ -16,5 +16,5 @@ export function useProtectRoute(redirectTo = '/login') {
 
   const isLoading = status === 'loading';
 
-  return { isLoading };
+  return { isLoading, status };
 }

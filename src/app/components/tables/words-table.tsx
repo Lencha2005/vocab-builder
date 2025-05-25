@@ -12,6 +12,7 @@ import { ProgressBar } from './progress-bar';
 import { ActionsMenu } from '../modals/actions-menu';
 import Icon from '../ui/icon';
 import TableHeaderWithIcon from './table-header-with-icon';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface CustomColumnMeta {
   hideOnMobile?: boolean;
@@ -89,7 +90,10 @@ export default function WordsTable({
       cell: ({ row }) =>
         onAdd ? (
           <button
-            onClick={() => onAdd(row.original._id!)}
+            onClick={() => {
+              onAdd(row.original._id!);
+              toast.success('Word added to dictionary');
+            }}
             className="text-green-primary text-sm xl:text-base font-medium 
             flex flex-col gap-[2px] xl:flex-row xl:gap-2 xl:items-center cursor-pointer"
           >
@@ -172,6 +176,7 @@ export default function WordsTable({
           </tbody>
         </table>
       </div>
+      <Toaster position="top-center" />
     </div>
   );
 }

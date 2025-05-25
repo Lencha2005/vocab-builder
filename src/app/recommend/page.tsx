@@ -24,7 +24,7 @@ import WordsTable from '../components/tables/words-table';
 import WordsPagination from '../components/tables/words-pagination';
 
 export default function RecommendPage() {
-  const { isLoading } = useProtectRoute(); // редіректить на /login
+  const { isLoading, status } = useProtectRoute(); // редіректить на /login
 
   const dispatch = useDispatch<AppDispatch>();
 
@@ -42,6 +42,7 @@ export default function RecommendPage() {
   }, [dispatch]);
 
   useEffect(() => {
+    if (status !== 'authenticated') return;
     dispatch(
       getAllWords({
         category,
@@ -51,7 +52,7 @@ export default function RecommendPage() {
         limit: perPage,
       })
     );
-  }, [dispatch, category, isIrregular, searchTerm, page, perPage]);
+  }, [dispatch, category, isIrregular, searchTerm, page, perPage, status]);
 
   const handleAddWord = (id: string) => {
     dispatch(addWordById(id));

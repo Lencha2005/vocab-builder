@@ -29,7 +29,6 @@ export const createWord = createAsyncThunk<
       '/words/create',
       formData
     );
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));
