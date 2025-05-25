@@ -20,8 +20,15 @@ type EditWordModalProps = {
 };
 
 const schema = z.object({
-  en: z.string().regex(/\b[A-Za-z'-]+(?:\s+[A-Za-z'-]+)*\b/),
-  ua: z.string().regex(/^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u),
+  ua: z
+    .string()
+    .regex(
+      /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u,
+      'Invalid Ukrainian word format'
+    ),
+  en: z
+    .string()
+    .regex(/^[A-Za-z][A-Za-z'\- ]*$/, 'Invalid English word format'),
 });
 
 type WordEditInputs = z.infer<typeof schema>;
@@ -71,7 +78,7 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
         >
           <div className="flex flex-col-reverse gap-2 md:flex-row md:gap-8">
             <InputField
-              type="ua"
+              type="text"
               placeholder="Трохи, трішки"
               {...register('ua')}
               error={errors.ua}
@@ -88,7 +95,7 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
           </div>
           <div className="flex flex-col-reverse gap-2 md:flex-row md:gap-8">
             <InputField
-              type="en"
+              type="text"
               placeholder="A little bit"
               {...register('en')}
               error={errors.en}
@@ -115,6 +122,7 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
               variant="transparent"
               type="button"
               className="p-4 mt-[18px] md:mt-[14px]"
+              onClick={onClose}
             >
               Cancel
             </Button>
