@@ -39,12 +39,12 @@ export default function InputField({
         {...register}
         {...rest}
         className={clsx(
-          'w-full  rounded-[15px] px-[18px] py-4 border outline-hidden',
+          'w-full  rounded-[15px] border outline-hidden',
           error && 'border border-red-500',
           variant === 'black' &&
-            'placeholder-black  border-black-10 hover:border-green-dark focus:border-green-dark active:border-green-dark',
+            'px-[18px] py-4 placeholder-black  border-black-10 hover:border-green-dark focus:border-green-dark active:border-green-dark',
           variant === 'white' &&
-            'placeholder-white text-white  border-white-70 hover:border-white focus:border-white active:border-white',
+            'px-6 py-3 md:px-[18px] md:py-4 placeholder-white text-white  border-white-70 hover:border-white focus:border-white active:border-white',
           className
         )}
       />

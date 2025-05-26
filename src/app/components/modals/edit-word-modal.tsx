@@ -114,14 +114,14 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
             <Button
               variant="white"
               type="submit"
-              className="p-4 md:p-[10px] mt-[18px] md:mt-[14px]"
+              className="p-3 md:p-[14px] mt-[18px] md:mt-[14px]"
             >
               Save
             </Button>
             <Button
               variant="transparent"
               type="button"
-              className="p-4 mt-[18px] md:mt-[14px]"
+              className="p-3 md:p-[14px] mt-[18px] md:mt-[14px]"
               onClick={onClose}
             >
               Cancel

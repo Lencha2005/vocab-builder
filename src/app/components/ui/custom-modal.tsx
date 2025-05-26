@@ -7,7 +7,6 @@ type CustomModalProps = {
   onClose: () => void;
   children: React.ReactNode;
   showCloseIcon: boolean;
-  // className: string;
 };
 
 export default function CustomModal({
@@ -15,7 +14,6 @@ export default function CustomModal({
   onClose,
   children,
   showCloseIcon = true,
-  // className,
 }: CustomModalProps) {
   return (
     <Modal
@@ -28,7 +26,6 @@ export default function CustomModal({
           timeout: 300,
         },
       }}
-      // className={className}
     >
       <Fade in={isOpen}>
         <Box
@@ -42,7 +39,7 @@ export default function CustomModal({
               width: '628px',
             },
             bgcolor: '#85aa9f',
-            borderRadius: 2,
+            borderRadius: 7,
             boxShadow: 24,
           }}
         >
