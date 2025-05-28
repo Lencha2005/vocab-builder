@@ -1,5 +1,13 @@
-import DictionaryClientWrapper from './dictionary-client-wrapper';
+'use client';
+
+import { Suspense } from 'react';
+import Dictionary from './dictionary';
+import Loader from '@/components/ui/loader';
 
 export default function Page() {
-  return <DictionaryClientWrapper />;
+  return (
+    <Suspense fallback={<Loader />}>
+      <Dictionary />
+    </Suspense>
+  );
 }
