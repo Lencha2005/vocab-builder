@@ -1,6 +1,6 @@
 'use client';
 
-import { WordItem } from '../../../types/word';
+import { WordItem } from '../../types/word';
 import React from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';

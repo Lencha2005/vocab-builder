@@ -13,9 +13,9 @@ import { getAllWords } from '@/redux/dictionary/operations';
 import { addWordById } from '@/redux/userWords/operations';
 import { setCurrentPage } from '@/redux/dictionary/slice';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
-import Dashboard from '../components/forms/dashboard';
-import WordsTable from '../components/tables/words-table';
-import WordsPagination from '../components/tables/words-pagination';
+import Dashboard from '../../components/forms/dashboard';
+import WordsTable from '../../components/tables/words-table';
+import WordsPagination from '../../components/tables/words-pagination';
 import { useFilters } from '@/lib/hooks/use-filters';
 
 export default function Recommend() {

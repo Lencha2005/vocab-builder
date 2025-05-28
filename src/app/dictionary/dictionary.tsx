@@ -15,11 +15,11 @@ import { setCurrentPage } from '@/redux/userWords/slice';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
 import { useFilters } from '@/lib/hooks/use-filters';
 
-import Dashboard from '../components/forms/dashboard';
-import WordsTable from '../components/tables/words-table';
-import WordsPagination from '../components/tables/words-pagination';
-import EditWordModal from '../components/modals/edit-word-modal';
-import AddWordModal from '../components/modals/add-word-modal';
+import Dashboard from '../../components/forms/dashboard';
+import WordsTable from '../../components/tables/words-table';
+import WordsPagination from '../../components/tables/words-pagination';
+import EditWordModal from '../../components/modals/edit-word-modal';
+import AddWordModal from '../../components/modals/add-word-modal';
 
 export default function Dictionary() {
   const { isLoading, status } = useProtectRoute();

@@ -7,7 +7,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { WordItem } from '../../../types/word';
+import { WordItem } from '../../types/word';
 import { ProgressBar } from './progress-bar';
 import { ActionsMenu } from '../modals/actions-menu';
 import toast from 'react-hot-toast';

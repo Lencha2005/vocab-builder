@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRedirectIfAuthenticated } from '@/lib/hooks/use-redirect-if-authenticated';
-import AuthLayout from '../components/layout/auth-layout';
-import LoginForm from '../components/forms/login-form';
+import AuthLayout from '../../components/layout/auth-layout';
+import LoginForm from '../../components/forms/login-form';
 
 export default function Login() {
   const { isLoadingOrRedirecting } = useRedirectIfAuthenticated();
