@@ -1,11 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const DictionaryClientWrapper = dynamic(
-  () => import('./dictionary-client-wrapper'),
-  {
-    ssr: false,
-  }
-);
+import DictionaryClientWrapper from './dictionary-client-wrapper';
 
 export default function Page() {
   return <DictionaryClientWrapper />;
