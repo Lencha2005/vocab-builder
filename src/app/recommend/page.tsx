@@ -11,65 +11,59 @@ import {
 } from '@/redux/dictionary/selectors';
 import { getAllWords } from '@/redux/dictionary/operations';
 import { addWordById } from '@/redux/userWords/operations';
-import {
-  selectCategory,
-  selectIsIrregular,
-  selectSearchTerm,
-} from '@/redux/filters/selectors';
-import { resetFilters } from '@/redux/filters/slice';
 import { setCurrentPage } from '@/redux/dictionary/slice';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
 import Dashboard from '../components/forms/dashboard';
 import WordsTable from '../components/tables/words-table';
 import WordsPagination from '../components/tables/words-pagination';
+import { useFilters } from '@/lib/hooks/use-filters';
 
 export default function RecommendPage() {
-  const { isLoading, status } = useProtectRoute(); // редіректить на /login
-
+  const { isLoading, status } = useProtectRoute();
   const dispatch = useDispatch<AppDispatch>();
 
   const dictionary = useSelector(selectWords);
   const page = useSelector(selectCurrentPage);
   const perPage = useSelector(selectPerPages);
   const totalPages = useSelector(selectTotalPages);
-  const category = useSelector(selectCategory);
-  const searchTerm = useSelector(selectSearchTerm);
-  const isIrregular = useSelector(selectIsIrregular);
 
-  useEffect(() => {
-    dispatch(resetFilters());
-    dispatch(setCurrentPage(1));
-  }, [dispatch]);
+  const { filters, updateFilters, resetFilters, ready } = useFilters(page =>
+    dispatch(setCurrentPage(page))
+  );
 
   useEffect(() => {
     if (status !== 'authenticated') return;
     dispatch(
       getAllWords({
-        category,
-        isIrregular,
-        keyword: searchTerm,
+        ...filters,
+        keyword: filters.search,
         page,
         limit: perPage,
       })
     );
-  }, [dispatch, category, isIrregular, searchTerm, page, perPage, status]);
+  }, [dispatch, filters, page, perPage, status]);
 
-  const handleAddWord = (id: string) => {
-    dispatch(addWordById(id));
-  };
 
-  const handlePageChange = (newPage: number) => {
-    dispatch(setCurrentPage(newPage));
-  };
 
-  if (isLoading) return null;
+  if (isLoading || !ready) return null;
 
   return (
-    <div
-      className="max-w-[375px] md:max-w-[768px] xl:max-w-[1440px]
-    pt-8 md:pt-20 pb-12 px-4 md:px-8 xl:px-[100px] mx-auto "
-    >
-      <Dashboard />
+    <div className="max-w-[375px] md:max-w-[768px] xl:max-w-[1440px] pt-8 md:pt-20 pb-12 px-4 md:px-8 xl:px-[100px] mx-auto">
+      <Dashboard
+        onResetFilters={resetFilters}
+        category={filters.category}
+        isIrregular={filters.isIrregular}
+        searchTerm={filters.search}
+        onSelect={val =>
+          updateFilters({
+            category: val,
+            isIrregular:
+              val.toLowerCase() === 'verb' ? filters.isIrregular : null,
+          })
+        }
+        onIrregularChange={val => updateFilters({ isIrregular: val })}
+        onSearch={val => updateFilters({ search: val })}
+      />
       {dictionary.length === 0 ? (
         <p className="text-center text-black font-medium mt-6">
           No words found
@@ -78,13 +72,13 @@ export default function RecommendPage() {
         <>
           <WordsTable
             words={dictionary}
-            onAdd={handleAddWord}
+            onAdd={id => dispatch(addWordById(id))}
             variant="recommend"
           />
           <WordsPagination
             currentPage={page}
             totalPages={totalPages}
-            onPageChange={handlePageChange}
+            onPageChange={page => updateFilters({ page })}
           />
         </>
       )}

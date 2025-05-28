@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
-import { Toaster, toast } from 'react-hot-toast';
 import { loginUser } from '@/lib/api/auth';
+import toast from 'react-hot-toast';
 import InputField from '../ui/input-field';
 import Button from '../ui/button';
 
@@ -80,7 +80,6 @@ export default function LoginForm() {
           Login
         </Button>
       </form>
-      <Toaster position="top-center" />
     </>
   );
 }

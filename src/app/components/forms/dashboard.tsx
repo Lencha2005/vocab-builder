@@ -1,45 +1,38 @@
 'use client';
 
 import { useDebouncedCallback } from 'use-debounce';
-import { usePathname } from 'next/navigation';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch } from '@/redux/store';
-import { selectStatistics } from '@/redux/userWords/selectors';
-import { selectCategory, selectIsIrregular } from '@/redux/filters/selectors';
-import {
-  setCategory,
-  setIsIrregular,
-  setSearchTerm,
-} from '@/redux/filters/slice';
 import Link from 'next/link';
 import Icon from '../ui/icon';
 import CustomSelect from '../ui/custom-select';
 
-export default function Dashboard() {
-  const dispatch = useDispatch<AppDispatch>();
-  const pathname = usePathname();
-  const statistics = useSelector(selectStatistics);
-  const category = useSelector(selectCategory);
-  const isIrregular = useSelector(selectIsIrregular);
-  console.log('statistics: ', statistics);
+type DashboardProps = {
+  onAddClick?: () => void;
+  onResetFilters?: () => void;
+  category: string;
+  isIrregular: boolean | null;
+  onSelect: (value: string) => void;
+  onIrregularChange: (value: boolean) => void;
+  searchTerm: string;
+  onSearch: (value: string) => void;
+  statistics?: number;
+  isDictionaryPage?: boolean;
+};
 
-  const isDictionaryPage = pathname === '/dictionary';
-
+export default function Dashboard({
+  onAddClick,
+  onResetFilters,
+  category,
+  isIrregular,
+  onSelect,
+  onIrregularChange,
+  searchTerm,
+  onSearch,
+  statistics,
+  isDictionaryPage = true,
+}: DashboardProps) {
   const handleSearch = useDebouncedCallback((term: string) => {
-    console.log('term: ', term);
-    dispatch(setSearchTerm(term.trim()));
+    onSearch(term.trim());
   }, 300);
-
-  const handleSelect = (value: string) => {
-    dispatch(setCategory(value));
-    if (value.toLowerCase() !== 'verb') {
-      dispatch(setIsIrregular(null));
-    }
-  };
-
-  const handleIrregularChange = (value: boolean) => {
-    dispatch(setIsIrregular(value));
-  };
 
   return (
     <div className="flex flex-col gap-10 md:gap-7 xl:flex-row xl:justify-between mb-8 md:mb-7">
@@ -48,6 +41,7 @@ export default function Dashboard() {
           <input
             type="text"
             name="search"
+            value={searchTerm}
             onChange={e => {
               handleSearch(e.target.value);
             }}
@@ -61,12 +55,20 @@ export default function Dashboard() {
             className="absolute top-[14px] right-6 w-[20px] h-[20px] fill-transparent stroke-black"
           />
         </div>
-        <CustomSelect
-          selected={category}
-          onSelect={handleSelect}
-          isIrregular={isIrregular}
-          onIrregularChange={handleIrregularChange}
-        />
+        <div className="flex gap-3 items-start">
+          <CustomSelect
+            selected={category}
+            onSelect={onSelect}
+            isIrregular={isIrregular}
+            onIrregularChange={onIrregularChange}
+          />
+          <button onClick={onResetFilters} className="p-4 cursor-pointer ">
+            <Icon
+              name="icon-spinner11"
+              className="w-4 h-4 fill-black hover:fill-green-dark focus:fill-green-dark"
+            />
+          </button>
+        </div>
       </div>
       <div className="flex flex-col md:flex-row gap-2 md:gap-4">
         <p className="text-sm md:text-base font-medium text-black-50 flex items-center">
@@ -78,6 +80,7 @@ export default function Dashboard() {
             <button
               type="button"
               className="font-medium flex items-center gap-2 cursor-pointer"
+              onClick={onAddClick}
             >
               Add word
               <Icon

@@ -10,9 +10,9 @@ import {
 import { WordItem } from '../../../types/word';
 import { ProgressBar } from './progress-bar';
 import { ActionsMenu } from '../modals/actions-menu';
+import toast from 'react-hot-toast';
 import Icon from '../ui/icon';
 import TableHeaderWithIcon from './table-header-with-icon';
-import toast, { Toaster } from 'react-hot-toast';
 
 interface CustomColumnMeta {
   hideOnMobile?: boolean;
@@ -176,7 +176,6 @@ export default function WordsTable({
           </tbody>
         </table>
       </div>
-      <Toaster position="top-center" />
     </div>
   );
 }

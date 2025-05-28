@@ -12,7 +12,6 @@ export const getAllWords = createAsyncThunk<
     const { data } = await authInstance.get<GetWordsResponse>('/words/all', {
       params,
     });
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));
@@ -42,7 +41,6 @@ export const getCategories = createAsyncThunk<
 >('dictionary/getCategories', async (_, thunkApi) => {
   try {
     const { data } = await authInstance.get<string[]>('/words/categories');
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));

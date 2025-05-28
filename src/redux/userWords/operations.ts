@@ -21,7 +21,6 @@ export const getUserWords = createAsyncThunk<
     const { data } = await authInstance.get<GetWordsResponse>('/words/own', {
       params,
     });
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));

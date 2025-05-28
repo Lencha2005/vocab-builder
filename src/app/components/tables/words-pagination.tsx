@@ -23,8 +23,6 @@ export default function WordsPagination({
   const searchParams = useSearchParams();
 
   const createPageURL = (pageNumber: number | string) => {
-    if (!searchParams || !pathname) return '#';
-
     const params = new URLSearchParams(searchParams);
     params.set('page', pageNumber.toString());
     return `${pathname}?${params.toString()}`;

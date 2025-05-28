@@ -5,13 +5,13 @@ import React from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import toast, { Toaster } from 'react-hot-toast';
-import CustomModal from '../ui/custom-modal';
-import InputField from '../ui/input-field';
-import Button from '../ui/button';
 import { updateWordById } from '@/redux/userWords/operations';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
+import toast from 'react-hot-toast';
+import CustomModal from '../ui/custom-modal';
+import InputField from '../ui/input-field';
+import Button from '../ui/button';
 import Icon from '../ui/icon';
 
 type EditWordModalProps = {
@@ -48,7 +48,6 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
     },
   });
   const onSubmit = async (data: WordEditInputs) => {
-    console.log('data: ', data);
     try {
       await dispatch(
         updateWordById({
@@ -61,7 +60,6 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
         })
       ).unwrap();
       toast.success('Word updateed successfully');
-      console.log('data: ', data);
       reset();
       onClose();
     } catch {
@@ -129,7 +127,6 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
           </div>
         </form>
       </div>
-      <Toaster position="top-center" />
     </CustomModal>
   );
 }

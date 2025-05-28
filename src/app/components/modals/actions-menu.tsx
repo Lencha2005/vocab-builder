@@ -45,7 +45,6 @@ export function ActionsMenu({ onEdit, onDelete }: ActionsMenuProps) {
               px: 3,
               py: 1.5,
               boxShadow: '0 4px 47px 0 rgba(18,20,23,0.08)',
-              //   minWidth: 117,
               bgcolor: 'white',
               fontFamily: 'inherit',
             },
