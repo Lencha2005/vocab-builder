@@ -1,7 +1,7 @@
-// import React from 'react';
+import React from 'react';
 
 // type Props = {};
 
-// export default function page({}: Props) {
-//   return <div>page</div>;
-// }
+export default function page() {
+  return <div>page</div>;
+}
