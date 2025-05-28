@@ -1,10 +1,6 @@
-import dynamic from 'next/dynamic';
-import Loader from '@/components/ui/loader';
+'use client';
 
-const Dictionary = dynamic(() => import('./dictionary'), {
-  ssr: false,
-  loading: () => <Loader />,
-});
+import Dictionary from './dictionary';
 
 export default function Page() {
   return <Dictionary />;
