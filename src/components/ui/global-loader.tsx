@@ -3,7 +3,7 @@
 import { useSelector } from 'react-redux';
 import { selectDictionaryLoading } from '@/redux/dictionary/selectors';
 import { selectUserWordsLoading } from '@/redux/userWords/selectors';
-import { BeatLoader } from 'react-spinners';
+import Loader from './loader';
 
 export default function GlobalLoader() {
   const dictionaryLoading = useSelector(selectDictionaryLoading);
@@ -12,11 +12,7 @@ export default function GlobalLoader() {
   const isLoading = dictionaryLoading || userWordsLoading;
 
   if (!isLoading) return null;
-  return (
-    <div className="fixed inset-0 flex items-center justify-center z-[1000] bg-white/50 backdrop-blur-sm">
-      <BeatLoader color="#85aa9f" size={20} />
-    </div>
-  );
+  return <Loader />;
 }
 
 // 'use client';
