@@ -1,13 +1,12 @@
-'use client';
+import dynamic from 'next/dynamic';
 
-import { Suspense } from 'react';
-import Dictionary from './dictionary';
-import Loader from '@/components/ui/loader';
+const DictionaryClientWrapper = dynamic(
+  () => import('./dictionary-client-wrapper'),
+  {
+    ssr: false,
+  }
+);
 
 export default function Page() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <Dictionary />
-    </Suspense>
-  );
+  return <DictionaryClientWrapper />;
 }
