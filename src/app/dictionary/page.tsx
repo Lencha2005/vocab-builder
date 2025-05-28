@@ -1,11 +1,11 @@
-import { Suspense } from 'react';
-import Dictionary from './dictionary';
+import dynamic from 'next/dynamic';
 import Loader from '@/components/ui/loader';
 
+const Dictionary = dynamic(() => import('./dictionary'), {
+  ssr: false,
+  loading: () => <Loader />,
+});
+
 export default function Page() {
-  return (
-    <Suspense fallback={<Loader />}>
-      <Dictionary />
-    </Suspense>
-  );
+  return <Dictionary />;
 }
