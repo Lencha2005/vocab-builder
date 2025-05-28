@@ -14,7 +14,7 @@ type DashboardProps = {
   onIrregularChange: (value: boolean) => void;
   searchTerm: string;
   onSearch: (value: string) => void;
-  statistics?: number;
+  statistics: number;
   isDictionaryPage?: boolean;
 };
 

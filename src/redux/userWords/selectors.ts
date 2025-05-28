@@ -11,5 +11,6 @@ export const selectStatistics = (state: RootState) =>
   state.userWords.statistics;
 export const selectTasks = (state: RootState) => state.userWords.tasks;
 export const selectAnswers = (state: RootState) => state.userWords.answers;
-export const selectIsLoading = (state: RootState) => state.userWords.isLoading;
+export const selectUserWordsLoading = (state: RootState) =>
+  state.userWords.isLoading;
 export const selectErrorUser = (state: RootState) => state.userWords.error;

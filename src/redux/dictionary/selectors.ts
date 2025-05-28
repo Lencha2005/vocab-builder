@@ -8,5 +8,6 @@ export const selectTotalPages = (state: RootState) =>
 export const selectCurrentPage = (state: RootState) =>
   state.dictionary.currentPage;
 export const selectPerPages = (state: RootState) => state.dictionary.perPage;
-export const selectIsLoading = (state: RootState) => state.dictionary.isLoading;
+export const selectDictionaryLoading = (state: RootState) =>
+  state.dictionary.isLoading;
 export const selectErrorUser = (state: RootState) => state.dictionary.error;

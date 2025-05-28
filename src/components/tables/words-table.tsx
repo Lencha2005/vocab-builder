@@ -10,7 +10,6 @@ import {
 import { WordItem } from '../../types/word';
 import { ProgressBar } from './progress-bar';
 import { ActionsMenu } from '../modals/actions-menu';
-import toast from 'react-hot-toast';
 import Icon from '../ui/icon';
 import TableHeaderWithIcon from './table-header-with-icon';
 
@@ -92,7 +91,6 @@ export default function WordsTable({
           <button
             onClick={() => {
               onAdd(row.original._id!);
-              toast.success('Word added to dictionary');
             }}
             className="text-green-primary text-sm xl:text-base font-medium 
             flex flex-col gap-[2px] xl:flex-row xl:gap-2 xl:items-center cursor-pointer"
