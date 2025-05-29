@@ -26,6 +26,7 @@ export default function Dictionary() {
   const dispatch = useDispatch<AppDispatch>();
 
   const dictionary = useSelector(selectUserWords);
+  console.log('dictionary: ', dictionary);
   const page = useSelector(selectCurrentPage);
   const perPage = useSelector(selectPerPages);
   const totalPages = useSelector(selectTotalPages);

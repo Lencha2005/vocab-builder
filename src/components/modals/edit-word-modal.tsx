@@ -117,7 +117,7 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
               Save
             </Button>
             <Button
-              variant="transparent"
+              variant="transparent-1"
               type="button"
               className="p-3 md:p-[14px] mt-[18px] md:mt-[14px]"
               onClick={onClose}

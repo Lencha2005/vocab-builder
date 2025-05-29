@@ -7,7 +7,7 @@ export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   disabled?: boolean;
-  variant?: 'green' | 'white' | 'transparent';
+  variant?: 'green' | 'white' | 'transparent-1' | 'transparent-2';
   className: string;
 }
 
@@ -27,8 +27,10 @@ export default function Button({
           'py-4 bg-green-dark text-white hover:bg-green-light focus:bg-green-light',
         variant === 'white' &&
           'bg-white text-black-default hover:text-green-dark',
-        variant === 'transparent' &&
+        variant === 'transparent-1' &&
           'bg-transparent text-white border border-white-40 hover:bg-white hover:text-black',
+        variant === 'transparent-2' &&
+          'bg-transparent text-green-dark border border-green-dark hover:bg-green-dark hover:text-white',
         disabled && 'opacity-50 cursor-not-allowed',
         className
       )}

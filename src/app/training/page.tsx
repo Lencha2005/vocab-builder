@@ -1,7 +1,5 @@
-import React from 'react';
+import Training from './training';
 
-// type Props = {};
-
-export default function page() {
-  return <div>page</div>;
+export default function Page() {
+  return <Training />;
 }

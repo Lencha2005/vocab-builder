@@ -9,7 +9,7 @@ import {
   DeleteWordResponse,
   GetTasksResponse,
   StatisticsResponse,
-  TrainingWord,
+  AnswerResponse,
 } from '@/types';
 
 export const getUserWords = createAsyncThunk<
@@ -99,7 +99,6 @@ export const getTasks = createAsyncThunk<
 >('userWords/getTasks', async (_, thunkApi) => {
   try {
     const { data } = await authInstance.get<GetTasksResponse>('/words/tasks');
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));
@@ -107,12 +106,12 @@ export const getTasks = createAsyncThunk<
 });
 
 export const addAnswers = createAsyncThunk<
-  TrainingWord[],
+  AnswerResponse[],
   AnswerWordDto[],
   { rejectValue: string }
 >('userWords/addAnswers', async (answers, thunkApi) => {
   try {
-    const { data } = await authInstance.post<TrainingWord[]>(
+    const { data } = await authInstance.post<AnswerResponse[]>(
       '/words/answers',
       answers
     );

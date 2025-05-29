@@ -165,7 +165,7 @@ export default function AddWordModal({
               Add
             </Button>
             <Button
-              variant="transparent"
+              variant="transparent-1"
               type="button"
               className="p-3 md:p-[14px]"
               onClick={onClose}

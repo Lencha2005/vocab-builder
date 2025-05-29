@@ -3,7 +3,7 @@ import {
   DeleteWordResponse,
   GetTasksResponse,
   StatisticsResponse,
-  TrainingWord,
+  AnswerResponse,
   UserWordsState,
   GetWordsResponse,
   WordItem,
@@ -125,7 +125,8 @@ const userWordsSlice = createSlice({
         getTasks.fulfilled,
         (state, action: PayloadAction<GetTasksResponse>) => {
           state.isLoading = false;
-          state.tasks = action.payload.words;
+          state.tasks = action.payload.tasks;
+          console.log('action.payload.tasks: ', action.payload.tasks);
           state.error = null;
         }
       )
@@ -133,7 +134,7 @@ const userWordsSlice = createSlice({
       .addCase(addAnswers.pending, handlePending)
       .addCase(
         addAnswers.fulfilled,
-        (state, action: PayloadAction<TrainingWord[]>) => {
+        (state, action: PayloadAction<AnswerResponse[]>) => {
           state.isLoading = false;
           state.answers = action.payload;
           state.error = null;

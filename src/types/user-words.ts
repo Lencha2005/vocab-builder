@@ -3,14 +3,14 @@ import { WordItem } from './word';
 export interface TaskWord {
   _id: string;
   ua: string;
-  task: string;
+  task: 'en';
 }
 
 export interface GetTasksResponse {
-  words: TaskWord[];
+  tasks: TaskWord[];
 }
 
-export interface TrainingWord {
+export interface AnswerResponse {
   _id: string;
   ua: string;
   en: string;
@@ -22,7 +22,7 @@ export interface AnswerWordDto {
   _id: string;
   ua: string;
   en: string;
-  task: string;
+  task: 'en';
 }
 
 export interface StatisticsResponse {
@@ -42,7 +42,7 @@ export interface UserWordsState {
   perPage: number;
   statistics: number;
   tasks: TaskWord[];
-  answers: TrainingWord[];
+  answers: AnswerResponse[];
   isLoading: boolean;
   error: string | null;
 }
