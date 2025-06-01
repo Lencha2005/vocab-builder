@@ -31,6 +31,7 @@ export default function Dictionary() {
   const searchParams = useSearchParams();
 
   const dictionary = useSelector(selectUserWords);
+  console.log('dictionary: ', dictionary);
   const page = useSelector(selectCurrentPage);
   const perPage = useSelector(selectPerPages);
   const totalPages = useSelector(selectTotalPages);

@@ -35,7 +35,6 @@ export default function Training() {
     const hasEn = tasks.some(task => task.task === 'en');
     const newDirection = hasUa ? 'ua' : hasEn ? 'en' : 'ua';
 
-    // ❗ встановлюй тільки якщо змінилось
     if (direction !== newDirection) {
       setDirection(newDirection);
     }
