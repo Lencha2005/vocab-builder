@@ -17,11 +17,11 @@ export default function WellDoneModal({
 
   return (
     <CustomModal isOpen={true} onClose={onClose} showCloseIcon>
-      <div className="py-12 px-4 md:px-16">
-        <h2 className="font-semibold text-2xl md:text-[40px] text-white mb:8 md:mb-7">
+      <div className="relative min-h-[350px] md:min-h-[400px] py-12 px-4 md:px-16">
+        <h2 className="font-semibold text-2xl md:text-[40px] text-white mb-8 md:mb-7">
           Well done
         </h2>
-        <div className="flex justify-between gap-8 md:gap-16">
+        <div className="flex gap-8 items-start md:gap-16">
           <ul className="text-left text-white flex flex-col gap-1">
             <li className="text-sm md:text-base mb-1">Correct answers:</li>
             {trueResults.map(item => (
@@ -40,18 +40,18 @@ export default function WellDoneModal({
           </ul>
         </div>
         <Image
-          src="/images/book.png"
+          src="/images/book-mb.png"
           alt="Blood"
           width={152}
           height={121}
-          className="block md:hidden mx-auto"
+          className="block absolute bottom-4 right-3 md:hidden"
         />
         <Image
           src="/images/book.png"
           alt="Blood"
           width={212}
           height={179}
-          className="hidden md:block mx-auto"
+          className="hidden md:block md:absolute md:bottom-3 md:right-4"
         />
       </div>
     </CustomModal>

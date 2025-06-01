@@ -17,13 +17,13 @@ import {
 import { setCurrentPage } from '@/redux/userWords/slice';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
 import { useFilters } from '@/lib/hooks/use-filters';
+import { useSearchParams } from 'next/navigation';
 
 import Dashboard from '../../components/forms/dashboard';
 import WordsTable from '../../components/tables/words-table';
 import WordsPagination from '../../components/tables/words-pagination';
 import EditWordModal from '../../components/modals/edit-word-modal';
 import AddWordModal from '../../components/modals/add-word-modal';
-import { useSearchParams } from 'next/navigation';
 
 export default function Dictionary() {
   const { isLoading, status } = useProtectRoute();
@@ -31,7 +31,6 @@ export default function Dictionary() {
   const searchParams = useSearchParams();
 
   const dictionary = useSelector(selectUserWords);
-  console.log('dictionary: ', dictionary);
   const page = useSelector(selectCurrentPage);
   const perPage = useSelector(selectPerPages);
   const totalPages = useSelector(selectTotalPages);

@@ -1,18 +1,19 @@
 'use client';
 
-import TrainingRoom from '@/components/forms/training-room';
-import WellDoneModal from '@/components/modals/well-done-modal';
-import TrainingEmpty from '@/components/ui/training-empty';
-import { ProgressBar } from '@/components/tables/progress-bar';
+import React, { useEffect, useState } from 'react';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
 import { AppDispatch } from '@/redux/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/navigation';
 import { getTasks, getAllUserWords } from '@/redux/userWords/operations';
 import { selectFullUserItems, selectTasks } from '@/redux/userWords/selectors';
 import { AnswerWordDto, TaskWord } from '@/types';
 import { AnswerResponse } from '@/types';
-import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useMediaQuery } from '@mui/material';
+import ProgressBar from '@/components/tables/progress-bar';
+import TrainingRoom from '@/components/forms/training-room';
+import WellDoneModal from '@/components/modals/well-done-modal';
+import TrainingEmpty from '@/components/ui/training-empty';
 
 export default function Training() {
   console.count('Render Training');
@@ -22,9 +23,9 @@ export default function Training() {
   const router = useRouter();
 
   const [answers, setAnswers] = useState<AnswerWordDto[]>([]);
-
   const [results, setResults] = useState<AnswerResponse[] | null>(null);
   const [direction, setDirection] = useState<'ua' | 'en' | null>(null);
+  const [showModal, setShowModal] = useState(false);
 
   const userWords = useSelector(selectFullUserItems);
   const tasks = useSelector(selectTasks);
@@ -56,9 +57,15 @@ export default function Training() {
     return progress !== undefined && progress < 100 && task.task === direction;
   });
 
+  const isTablet = useMediaQuery('(min-width: 768px)');
   const progress = (answers.length / filteredTasks.length) * 100;
 
   if (direction === null || isLoading) return null;
+
+  const handleComplete = (res: AnswerResponse[]) => {
+    setResults(res);
+    setShowModal(true);
+  };
 
   if (results) {
     return (
@@ -76,17 +83,36 @@ export default function Training() {
       {filteredTasks.length === 0 ? (
         <TrainingEmpty />
       ) : (
-        <div className="max-w-[375px] md:max-w-[768px] xl:max-w-[1440px] pt-6 px-4 pb-19 md:pt-[62px] md:px-8 md:pb-[102px] xl:px-[100px]  mx-auto">
-          <ProgressBar value={progress} />
+        <div className="relative max-w-[375px] md:max-w-[768px] xl:max-w-[1440px] pt-[76px] px-4 pb-19 md:pt-[136px] md:px-8 md:pb-[102px] xl:px-[100px]  mx-auto">
+          <ProgressBar
+            value={progress}
+            label={`${progress}`}
+            size={isTablet ? 58 : 44}
+            labelPosition="inside"
+            trackColor="#ffffff"
+            progressColor="#85aa9f"
+            className="absolute top-6 right-4 md:top-[62px] md:right-8 xl:right-[100px]"
+          />
+
           <TrainingRoom
             tasks={filteredTasks}
             answers={answers}
             setAnswers={setAnswers}
-            onComplete={setResults}
+            onComplete={handleComplete}
             direction={direction}
             setDirection={setDirection}
           />
         </div>
+      )}
+
+      {showModal && results && (
+        <WellDoneModal
+          results={results}
+          onClose={() => {
+            setShowModal(false);
+            // router.push('/dictionary');
+          }}
+        />
       )}
     </>
   );

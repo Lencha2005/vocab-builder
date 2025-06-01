@@ -1,8 +1,8 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import Button from './button';
 import Image from 'next/image';
+import Button from './button';
 
 export default function TrainingEmpty() {
   const router = useRouter();

@@ -51,6 +51,7 @@ export default function CustomModal({
                 position: 'absolute',
                 top: '16px',
                 right: '16px',
+                zIndex: 10,
                 '@media (min-width:768px)': {
                   top: '20px',
                   right: '20px',

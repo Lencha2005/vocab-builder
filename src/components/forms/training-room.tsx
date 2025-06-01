@@ -21,7 +21,7 @@ type TrainingRoomProps = {
   tasks: TaskWord[];
   answers: AnswerWordDto[];
   setAnswers: React.Dispatch<React.SetStateAction<AnswerWordDto[]>>;
-  onComplete: (value: AnswerResponse[] | null) => void;
+  onComplete: (value: AnswerResponse[]) => void;
   direction: 'en' | 'ua';
   setDirection: React.Dispatch<React.SetStateAction<'ua' | 'en' | null>>;
 };

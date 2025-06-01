@@ -8,7 +8,7 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import { WordItem } from '../../types/word';
-import { ProgressBar } from './progress-bar';
+import ProgressBar from './progress-bar';
 import { ActionsMenu } from '../modals/actions-menu';
 import Icon from '../ui/icon';
 import TableHeaderWithIcon from './table-header-with-icon';
@@ -62,7 +62,9 @@ export default function WordsTable({
     {
       accessorKey: 'progress',
       header: 'Progress',
-      cell: ({ row }) => <ProgressBar value={row.original.progress ?? 0} />,
+      cell: ({ row }) => (
+        <ProgressBar value={row.original.progress ?? 0} labelPosition="left" />
+      ),
     },
     {
       id: 'actions',
