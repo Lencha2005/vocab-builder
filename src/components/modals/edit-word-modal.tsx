@@ -24,11 +24,11 @@ const schema = z.object({
     .string()
     .regex(
       /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u,
-      'Invalid Ukrainian word format'
+      'Введіть слово українською мовою'
     ),
   en: z
     .string()
-    .regex(/^[A-Za-z][A-Za-z'\- ]*$/, 'Invalid English word format'),
+    .regex(/^[A-Za-z][A-Za-z'\- ]*$/, 'Введіть слово англійською мовою'),
 });
 
 type WordEditInputs = z.infer<typeof schema>;
@@ -59,11 +59,11 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
           },
         })
       ).unwrap();
-      toast.success('Word updateed successfully');
+      toast.success('Слово успішно відредаговано');
       reset();
       onClose();
     } catch {
-      toast.error('Failed to update word');
+      toast.error('Помилка при редагуванні слова');
     }
   };
 
@@ -117,7 +117,7 @@ export default function EditWordModal({ word, onClose }: EditWordModalProps) {
               Save
             </Button>
             <Button
-              variant="transparent"
+              variant="transparent-1"
               type="button"
               className="p-3 md:p-[14px] mt-[18px] md:mt-[14px]"
               onClick={onClose}

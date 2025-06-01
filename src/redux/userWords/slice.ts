@@ -3,7 +3,7 @@ import {
   DeleteWordResponse,
   GetTasksResponse,
   StatisticsResponse,
-  TrainingWord,
+  AnswerResponse,
   UserWordsState,
   GetWordsResponse,
   WordItem,
@@ -12,9 +12,10 @@ import {
   addAnswers,
   addWordById,
   deleteWordById,
+  getAllUserWords,
   getStatistics,
   getTasks,
-  getUserWords,
+  getUserWordsWithPagination,
   updateWordById,
 } from './operations';
 
@@ -33,6 +34,7 @@ const handleRejected = (
 
 const INITIAL_STATE: UserWordsState = {
   userItems: [],
+  fullUserItems: [],
   word: null,
   totalPages: 0,
   currentPage: 1,
@@ -61,19 +63,40 @@ const userWordsSlice = createSlice({
   },
   extraReducers: builder =>
     builder
-      .addCase(getUserWords.pending, handlePending)
+      .addCase(getUserWordsWithPagination.pending, handlePending)
       .addCase(
-        getUserWords.fulfilled,
+        getUserWordsWithPagination.fulfilled,
         (state, action: PayloadAction<GetWordsResponse>) => {
           state.isLoading = false;
-          state.userItems = action.payload.results;
+
+          const newItems = action.payload.results;
+          const oldItems = state.userItems;
+
+          const isSame =
+            oldItems.length === newItems.length &&
+            oldItems.every((item, i) => item._id === newItems[i]._id);
+
+          if (!isSame) {
+            state.userItems = newItems;
+          }
           state.totalPages = action.payload.totalPages;
           state.currentPage = action.payload.page;
           state.perPage = action.payload.perPage;
           state.error = null;
         }
       )
-      .addCase(getUserWords.rejected, handleRejected)
+      .addCase(getUserWordsWithPagination.rejected, handleRejected)
+      .addCase(getAllUserWords.pending, handlePending)
+      .addCase(
+        getAllUserWords.fulfilled,
+        (state, action: PayloadAction<GetWordsResponse>) => {
+          state.isLoading = false;
+          state.fullUserItems = action.payload.results;
+          state.error = null;
+        }
+      )
+      .addCase(getAllUserWords.rejected, handleRejected)
+
       .addCase(addWordById.pending, handlePending)
       .addCase(
         addWordById.fulfilled,
@@ -125,7 +148,7 @@ const userWordsSlice = createSlice({
         getTasks.fulfilled,
         (state, action: PayloadAction<GetTasksResponse>) => {
           state.isLoading = false;
-          state.tasks = action.payload.words;
+          state.tasks = action.payload.tasks;
           state.error = null;
         }
       )
@@ -133,7 +156,7 @@ const userWordsSlice = createSlice({
       .addCase(addAnswers.pending, handlePending)
       .addCase(
         addAnswers.fulfilled,
-        (state, action: PayloadAction<TrainingWord[]>) => {
+        (state, action: PayloadAction<AnswerResponse[]>) => {
           state.isLoading = false;
           state.answers = action.payload;
           state.error = null;

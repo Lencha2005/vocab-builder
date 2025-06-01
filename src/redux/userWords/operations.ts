@@ -9,17 +9,32 @@ import {
   DeleteWordResponse,
   GetTasksResponse,
   StatisticsResponse,
-  TrainingWord,
+  AnswerResponse,
 } from '@/types';
 
-export const getUserWords = createAsyncThunk<
+export const getUserWordsWithPagination = createAsyncThunk<
   GetWordsResponse,
   GetWordsParams | void,
   { rejectValue: string }
->('userWords/getUserWords', async (params = {}, thunkApi) => {
+>('userWords/getUserWordsWithPagination', async (params = {}, thunkApi) => {
   try {
     const { data } = await authInstance.get<GetWordsResponse>('/words/own', {
       params,
+    });
+    return data;
+  } catch (error: unknown) {
+    return thunkApi.rejectWithValue(getErrorMessage(error));
+  }
+});
+
+export const getAllUserWords = createAsyncThunk<
+  GetWordsResponse,
+  void,
+  { rejectValue: string }
+>('userWords/getAllUserWords', async (_, thunkApi) => {
+  try {
+    const { data } = await authInstance.get<GetWordsResponse>('/words/own', {
+      params: { limit: 1000 },
     });
     return data;
   } catch (error: unknown) {
@@ -99,7 +114,6 @@ export const getTasks = createAsyncThunk<
 >('userWords/getTasks', async (_, thunkApi) => {
   try {
     const { data } = await authInstance.get<GetTasksResponse>('/words/tasks');
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));
@@ -107,12 +121,12 @@ export const getTasks = createAsyncThunk<
 });
 
 export const addAnswers = createAsyncThunk<
-  TrainingWord[],
+  AnswerResponse[],
   AnswerWordDto[],
   { rejectValue: string }
 >('userWords/addAnswers', async (answers, thunkApi) => {
   try {
-    const { data } = await authInstance.post<TrainingWord[]>(
+    const { data } = await authInstance.post<AnswerResponse[]>(
       '/words/answers',
       answers
     );

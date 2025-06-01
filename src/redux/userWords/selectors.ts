@@ -1,6 +1,8 @@
 import { RootState } from '../store';
 
 export const selectUserWords = (state: RootState) => state.userWords.userItems;
+export const selectFullUserItems = (state: RootState) =>
+  state.userWords.fullUserItems;
 export const selectWord = (state: RootState) => state.userWords.word;
 export const selectTotalPages = (state: RootState) =>
   state.userWords.totalPages;

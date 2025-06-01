@@ -3,7 +3,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
-import { deleteWordById, getUserWords } from '@/redux/userWords/operations';
+import {
+  deleteWordById,
+  getUserWordsWithPagination,
+} from '@/redux/userWords/operations';
 import {
   selectUserWords,
   selectCurrentPage,
@@ -20,10 +23,12 @@ import WordsTable from '../../components/tables/words-table';
 import WordsPagination from '../../components/tables/words-pagination';
 import EditWordModal from '../../components/modals/edit-word-modal';
 import AddWordModal from '../../components/modals/add-word-modal';
+import { useSearchParams } from 'next/navigation';
 
 export default function Dictionary() {
   const { isLoading, status } = useProtectRoute();
   const dispatch = useDispatch<AppDispatch>();
+  const searchParams = useSearchParams();
 
   const dictionary = useSelector(selectUserWords);
   const page = useSelector(selectCurrentPage);
@@ -36,6 +41,12 @@ export default function Dictionary() {
     add: false,
   });
 
+  useEffect(() => {
+    if (searchParams.get('addWord') === 'true') {
+      setModals(prev => ({ ...prev, add: true }));
+    }
+  }, [searchParams]);
+
   const { filters, updateFilters, resetFilters, ready } = useFilters(page =>
     dispatch(setCurrentPage(page))
   );
@@ -43,7 +54,7 @@ export default function Dictionary() {
   useEffect(() => {
     if (status === 'authenticated') {
       dispatch(
-        getUserWords({
+        getUserWordsWithPagination({
           ...filters,
           keyword: filters.search,
           page,

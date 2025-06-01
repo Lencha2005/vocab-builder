@@ -12,27 +12,35 @@ export function useFilters(setPage: (page: number) => void) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const initialized = useRef(false);
 
   const [filters, setFilters] = useState<FiltersState>({
     category: '',
     search: '',
     isIrregular: null,
   });
+
   const [ready, setReady] = useState(false);
-  const initialized = useRef(false);
 
   useEffect(() => {
     if (initialized.current) return;
-    initialized.current = true;
 
     const search = searchParams.get('search') ?? '';
     const category = searchParams.get('category') ?? '';
     const isIrregular = getBoolean(searchParams.get('isIrregular'));
-
     const pageParam = Number(searchParams.get('page')) || 1;
 
-    setFilters({ category, search, isIrregular });
-    setPage(pageParam);
+    const same =
+      filters.category === category &&
+      filters.search === search &&
+      filters.isIrregular === isIrregular;
+
+    if (!same) {
+      setFilters({ category, search, isIrregular });
+      setPage(pageParam);
+    }
+    initialized.current = true;
+
     setReady(true);
   }, [searchParams, setPage]);
 

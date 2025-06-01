@@ -2,15 +2,16 @@ import { WordItem } from './word';
 
 export interface TaskWord {
   _id: string;
+  en: string;
   ua: string;
-  task: string;
+  task: 'ua' | 'en';
 }
 
 export interface GetTasksResponse {
-  words: TaskWord[];
+  tasks: TaskWord[];
 }
 
-export interface TrainingWord {
+export interface AnswerResponse {
   _id: string;
   ua: string;
   en: string;
@@ -20,9 +21,9 @@ export interface TrainingWord {
 
 export interface AnswerWordDto {
   _id: string;
-  ua: string;
-  en: string;
-  task: string;
+  ua?: string;
+  en?: string;
+  task: 'ua' | 'en';
 }
 
 export interface StatisticsResponse {
@@ -36,13 +37,14 @@ export interface DeleteWordResponse {
 
 export interface UserWordsState {
   userItems: WordItem[];
+  fullUserItems: WordItem[];
   word: WordItem | null;
   totalPages: number;
   currentPage: number;
   perPage: number;
   statistics: number;
   tasks: TaskWord[];
-  answers: TrainingWord[];
+  answers: AnswerResponse[];
   isLoading: boolean;
   error: string | null;
 }

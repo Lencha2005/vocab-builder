@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { createWord } from '@/redux/dictionary/operations';
-import { getUserWords } from '@/redux/userWords/operations';
+import { getUserWordsWithPagination } from '@/redux/userWords/operations';
 import { FiltersState } from '@/types';
 import toast from 'react-hot-toast';
 import CustomModal from '../ui/custom-modal';
@@ -28,13 +28,13 @@ const schema = z.object({
     .string()
     .regex(
       /^(?![A-Za-z])[А-ЯІЄЇҐґа-яієїʼ\s]+$/u,
-      'Invalid Ukrainian word format'
+      'Введіть слово українською мовою'
     ),
   en: z
     .string()
     .regex(
       /\b[A-Za-z,'-]+(?:\s+[A-Za-z,'-]+)*\b/,
-      'Invalid English word format'
+      'Введіть слово англійською мовою'
     ),
 });
 
@@ -76,6 +76,7 @@ export default function AddWordModal({
       const wordPayload = {
         ...data,
         category,
+        // task: 'ua',
         ...(category === 'verb' && typeof isIrregular === 'boolean'
           ? { isIrregular }
           : {}),
@@ -84,7 +85,7 @@ export default function AddWordModal({
       await dispatch(createWord(wordPayload)).unwrap();
 
       await dispatch(
-        getUserWords({
+        getUserWordsWithPagination({
           category: filters.category,
           isIrregular: filters.isIrregular,
           keyword: filters.search,
@@ -93,14 +94,14 @@ export default function AddWordModal({
         })
       );
 
-      toast.success('Word added successfully');
+      toast.success('Слово успішно додано');
       reset();
       onClose();
     } catch (error) {
       if (error && typeof error === 'string' && error.includes('409')) {
-        toast.error('This word already exists in your dictionary');
+        toast.error('Це слово вже було додано в ваш словник');
       } else {
-        toast.error('Failed to add word');
+        toast.error('Помилка при додаванні');
       }
     }
   };
@@ -108,7 +109,7 @@ export default function AddWordModal({
   return (
     <CustomModal isOpen={true} onClose={onClose} showCloseIcon>
       <div className="py-12 px-4 md:px-16">
-        <h2 className="font-semibold text-2xl md:text-[40px] text-white md:mb-5">
+        <h2 className="font-semibold text-2xl md:text-[40px] text-white mb-4 md:mb-5">
           Add word
         </h2>
         <p className="text-sm md:text-xl text-white mb-4 md:mb-8">
@@ -165,7 +166,7 @@ export default function AddWordModal({
               Add
             </Button>
             <Button
-              variant="transparent"
+              variant="transparent-1"
               type="button"
               className="p-3 md:p-[14px]"
               onClick={onClose}
