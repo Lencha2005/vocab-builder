@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import {
   deleteWordById,
+  getStatistics,
   getUserWordsWithPagination,
 } from '@/redux/userWords/operations';
 import {
@@ -61,6 +62,7 @@ export default function Dictionary() {
           limit: perPage,
         })
       );
+      dispatch(getStatistics());
     }
   }, [dispatch, filters, page, perPage, status]);
 

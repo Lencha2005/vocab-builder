@@ -44,6 +44,7 @@ export default function WellDoneModal({
           alt="Blood"
           width={152}
           height={121}
+          style={{ height: 'auto' }}
           className="block absolute bottom-4 right-3 md:hidden"
         />
         <Image
@@ -51,6 +52,7 @@ export default function WellDoneModal({
           alt="Blood"
           width={212}
           height={179}
+          style={{ height: 'auto' }}
           className="hidden md:block md:absolute md:bottom-3 md:right-4"
         />
       </div>

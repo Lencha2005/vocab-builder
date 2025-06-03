@@ -10,15 +10,14 @@ import { selectFullUserItems, selectTasks } from '@/redux/userWords/selectors';
 import { AnswerWordDto, TaskWord } from '@/types';
 import { AnswerResponse } from '@/types';
 import { useMediaQuery } from '@mui/material';
+
 import ProgressBar from '@/components/tables/progress-bar';
 import TrainingRoom from '@/components/forms/training-room';
 import WellDoneModal from '@/components/modals/well-done-modal';
 import TrainingEmpty from '@/components/ui/training-empty';
 
 export default function Training() {
-  console.count('Render Training');
   const { isLoading, status } = useProtectRoute();
-
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
 
@@ -110,7 +109,6 @@ export default function Training() {
           results={results}
           onClose={() => {
             setShowModal(false);
-            // router.push('/dictionary');
           }}
         />
       )}

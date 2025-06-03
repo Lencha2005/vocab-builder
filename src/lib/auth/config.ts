@@ -1,6 +1,6 @@
 import type { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { AppUser } from '@/types';
+import { User } from '@/types';
 
 export const authConfig: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
@@ -33,7 +33,7 @@ export const authConfig: AuthOptions = {
 
           if (!res.ok) return null;
 
-          const user: AppUser = await res.json();
+          const user: User = await res.json();
 
           return {
             id: user.email,
@@ -57,7 +57,7 @@ export const authConfig: AuthOptions = {
     },
     async session({ session, token }) {
       if (token?.user) {
-        session.user = token.user as AppUser;
+        session.user = token.user as User;
       }
       return session;
     },

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,6 +14,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '@/redux/store';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
+
 import Icon from '../ui/icon';
 import Button from '../ui/button';
 
@@ -62,10 +63,15 @@ export default function TrainingRoom({
     register,
     handleSubmit,
     formState: { errors },
+    setFocus,
     reset,
   } = useForm<WordTaskInputs>({
     resolver: zodResolver(schema(direction)),
   });
+
+  useEffect(() => {
+    setFocus('answer');
+  }, [setFocus]);
 
   const filteredTasks = tasks.filter(task => task.task === direction);
   const currentTask = filteredTasks[currentIndex];

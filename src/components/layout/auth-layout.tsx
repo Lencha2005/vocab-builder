@@ -37,6 +37,7 @@ export default function AuthLayout({ children }: AuthLayoutProps) {
           alt="VocabBuilder"
           width={498}
           height={435}
+          priority
           className="hidden xl:block mx-auto"
         />
         <ul

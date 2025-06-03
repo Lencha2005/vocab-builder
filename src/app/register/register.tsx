@@ -3,6 +3,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRedirectIfAuthenticated } from '@/lib/hooks/use-redirect-if-authenticated';
+
 import AuthLayout from '../../components/layout/auth-layout';
 import RegisterForm from '../../components/forms/register-form';
 

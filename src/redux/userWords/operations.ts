@@ -100,7 +100,6 @@ export const getStatistics = createAsyncThunk<
   try {
     const { data } =
       await authInstance.get<StatisticsResponse>('/words/statistics');
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));
@@ -130,7 +129,6 @@ export const addAnswers = createAsyncThunk<
       '/words/answers',
       answers
     );
-    console.log('data: ', data);
     return data;
   } catch (error: unknown) {
     return thunkApi.rejectWithValue(getErrorMessage(error));

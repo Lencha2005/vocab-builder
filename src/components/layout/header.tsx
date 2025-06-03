@@ -5,6 +5,7 @@ import { useSession, signOut } from 'next-auth/react';
 import { usePathname } from 'next/navigation';
 import clsx from 'clsx';
 import Link from 'next/link';
+
 import Icon from '../ui/icon';
 import MobileMenu from './mobile-menu';
 

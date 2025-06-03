@@ -96,7 +96,8 @@ export default function MobileMenu({
           <Image
             src="/images/main-mob.png"
             alt="VocabBuilder"
-            fill
+            width={498}
+            height={435}
             className="object-cover"
           />
         </div>

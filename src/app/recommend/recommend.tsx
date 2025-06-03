@@ -10,12 +10,13 @@ import {
   selectWords,
 } from '@/redux/dictionary/selectors';
 import { getAllWords } from '@/redux/dictionary/operations';
-import { addWordById } from '@/redux/userWords/operations';
+import { addWordById, getStatistics } from '@/redux/userWords/operations';
 import { setCurrentPage } from '@/redux/dictionary/slice';
 import { useProtectRoute } from '@/lib/hooks/use-protect-route';
 import { useFilters } from '@/lib/hooks/use-filters';
 import { selectStatistics } from '@/redux/userWords/selectors';
 import toast from 'react-hot-toast';
+
 import Dashboard from '../../components/forms/dashboard';
 import WordsTable from '../../components/tables/words-table';
 import WordsPagination from '../../components/tables/words-pagination';
@@ -44,6 +45,7 @@ export default function Recommend() {
         limit: perPage,
       })
     );
+    dispatch(getStatistics());
   }, [dispatch, filters, page, perPage, status]);
 
   const handleAddWord = async (id: string) => {
