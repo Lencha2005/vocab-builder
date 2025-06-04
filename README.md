@@ -71,7 +71,9 @@
 ## 📦 Встановлення
 
 - git clone https://github.com/Lencha2005/vocab-builder.git
-- cd vocab-builder -npm install -npm run dev
+- cd vocab-builder
+- npm install
+- npm run dev
 
 ## Автор
 
